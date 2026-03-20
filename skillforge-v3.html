@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SkillForge AI — Build Your Future</title>
+<link href="https://fonts.googleapis.com/css2?family=Cabinet+Grotesk:wght@400;500;700;800;900&family=Bricolage+Grotesque:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- cursor -->
+<div id="CUR"></div><div id="CUR2"></div>
+<!-- canvas -->
+<canvas id="cv"></canvas>
+<!-- loading -->
+<div id="loading3"><div class="ld-ring"></div><div class="ld-txt">AI PROCESSING...</div></div>
+<!-- auth -->
+<div id="authModal" class="auth-modal" aria-hidden="true">
+  <div class="auth-card" role="dialog" aria-modal="true" aria-labelledby="authTitle">
+    <button class="auth-close" type="button" aria-label="Close authentication dialog" onclick="closeAuth()">×</button>
+    <div class="auth-mini-chip">Secure Email OTP Verification</div>
+    <div class="auth-tabs" role="tablist" aria-label="Authentication mode">
+      <button class="auth-tab on" id="authSignupTab" type="button" onclick="switchAuthMode('signup')">Sign Up</button>
+      <button class="auth-tab" id="authLoginTab" type="button" onclick="switchAuthMode('login')">Login</button>
+    </div>
+    <div class="auth-social" aria-label="Social sign in">
+      <div class="auth-social-grid">
+        <div class="auth-social-host" id="googleAuthButton" aria-live="polite"></div>
+        <button class="auth-provider auth-provider-github" id="githubLoginBtn" type="button" onclick="startGitHubLogin()">
+          <span class="auth-provider-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C6.48 2 2 6.59 2 12.25C2 16.78 4.87 20.63 8.84 21.98C9.34 22.07 9.52 21.76 9.52 21.49C9.52 21.24 9.51 20.42 9.5 19.33C6.73 19.95 6.14 18.12 6.14 18.12C5.68 16.92 5.03 16.6 5.03 16.6C4.12 15.96 5.1 15.98 5.1 15.98C6.11 16.06 6.64 17.04 6.64 17.04C7.54 18.63 9 18.17 9.57 17.89C9.66 17.22 9.92 16.77 10.21 16.51C8 16.25 5.67 15.37 5.67 11.45C5.67 10.33 6.06 9.41 6.7 8.69C6.59 8.43 6.25 7.39 6.8 5.98C6.8 5.98 7.65 5.7 9.5 6.99C10.31 6.76 11.18 6.64 12.04 6.64C12.9 6.64 13.77 6.76 14.58 6.99C16.43 5.7 17.28 5.98 17.28 5.98C17.83 7.39 17.49 8.43 17.38 8.69C18.02 9.41 18.41 10.33 18.41 11.45C18.41 15.38 16.07 16.24 13.86 16.5C14.22 16.83 14.54 17.49 14.54 18.51C14.54 19.97 14.52 21.14 14.52 21.49C14.52 21.76 14.7 22.08 15.21 21.98C19.18 20.63 22.05 16.78 22.05 12.25C22.05 6.59 17.57 2 12 2Z" fill="currentColor"/>
+            </svg>
+          </span>
+          Continue with GitHub
+        </button>
+      </div>
+      <div class="auth-divider"><span>or use email OTP</span></div>
+    </div>
+    <div class="auth-step" id="authRequestStep">
+      <h2 class="auth-title" id="authTitle">Create your SkillForge AI account</h2>
+      <p class="auth-sub" id="authSub">Enter your email to get a one-time verification code.</p>
+      <div class="auth-field" id="authNameWrap">
+        <label class="auth-label" for="authName">Full name</label>
+        <input class="auth-input" id="authName" type="text" autocomplete="name" placeholder="Your full name">
+      </div>
+      <div class="auth-field">
+        <label class="auth-label" for="authEmail">Email address</label>
+        <input class="auth-input" id="authEmail" type="email" autocomplete="email" placeholder="you@example.com" onkeydown="if(event.key==='Enter')sendAuthOtp()">
+      </div>
+      <button class="btn-primary auth-submit" type="button" onclick="sendAuthOtp()">Send OTP</button>
+    </div>
+    <div class="auth-step is-hidden" id="authVerifyStep">
+      <h2 class="auth-title">Verify your email</h2>
+      <p class="auth-sub">Enter the 6-digit code for <strong id="authOtpEmail"></strong>.</p>
+      <div class="auth-otp-preview" id="authOtpPreview" aria-live="polite"></div>
+      <div class="auth-field">
+        <label class="auth-label" for="authOtp">One-time password</label>
+        <input class="auth-input auth-input-otp" id="authOtp" type="text" inputmode="numeric" maxlength="6" autocomplete="one-time-code" placeholder="000000" oninput="this.value=this.value.replace(/[^0-9]/g,'').slice(0,6)" onkeydown="if(event.key==='Enter')verifyAuthOtp()">
+      </div>
+      <div class="auth-row">
+        <button class="btn-secondary auth-row-btn" type="button" onclick="backAuthStep()">Back</button>
+        <button class="btn-primary auth-row-btn" type="button" onclick="verifyAuthOtp()">Verify & Continue</button>
+      </div>
+      <button class="auth-link-btn" type="button" onclick="resendAuthOtp()">Resend OTP</button>
+    </div>
+    <p class="auth-feedback" id="authFeedback" aria-live="polite"></p>
+    <p class="auth-disclaimer" id="authDisclaimer">Secure verification will send a one-time code when email OTP is enabled.</p>
+  </div>
+</div>
+
+<div class="app">
+
+<!-- ═══════════════════════ NAV ═══════════════════════ -->
+<nav>
+  <a class="logo" href="#" onclick="go('home');return false">
+    <div class="logo-icon">⚡</div>
+    <div class="logo-text"><b>Skill</b>Forge AI</div>
+  </a>
+  <div class="nav-links">
+    <a href="#" onclick="go('home');return false">Home</a>
+    <a href="#" onclick="go('courses');return false">Courses</a>
+    <a href="#" onclick="go('tutor');return false">AI Tutor</a>
+    <a href="#" onclick="go('plan');return false">Learning Plan</a>
+    <a href="#" onclick="go('jobs');return false">Jobs</a>
+    <a href="#" onclick="go('chat');return false">AI Mentor</a>
+    <a href="#" onclick="go('blueprint');return false">Blueprint</a>
+    <a href="#" onclick="go('founder');return false">Founder</a>
+    <a href="#" onclick="go('connect');return false">Platforms</a>
+    <a href="#" onclick="go('dashboard');return false">Dashboard</a>
+  </div>
+  <div class="nav-actions">
+    <button class="nav-ghost" id="navSecondaryBtn" type="button" onclick="handleSecondaryNavAction()">Login</button>
+    <button class="nav-pill" id="navPrimaryBtn" type="button" onclick="handlePrimaryNavAction()">Sign Up Free</button>
+  </div>
+</nav>
+
+<!-- ═══════════════════════ HOME ═══════════════════════ -->
+<div id="page-home" class="page active">
+
+  <!-- HERO -->
+  <section class="hero hero-premium">
+    <div class="orb orb-a"></div><div class="orb orb-b"></div><div class="orb orb-c"></div>
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <div class="chip"><div class="chip-dot"></div>India-first AI Career Operating System</div>
+        <div class="hero-intro">Built for students who want signal, speed, and recruiter-grade proof</div>
+        <h1>Go From Curious<br>to <em>Inevitable.</em></h1>
+        <p class="hero-sub">SkillForge AI combines roadmaps, project sprints, interview prep, and hiring momentum in one focused product designed to turn hard work into visible outcomes.</p>
+        <p class="founder-line">Founder-led by <a href="#" onclick="go('founder');return false">Harshal Panjabrao Wakode</a> · AI Engineer & AI Automation Specialist</p>
+
+        <div class="hero-ctas">
+          <button class="btn-primary" onclick="go('blueprint')">Design My Career System</button>
+          <button class="btn-secondary" onclick="go('courses')">Explore Courses</button>
+          <button class="btn-outline" onclick="go('chat')">Talk To AI Mentor</button>
+        </div>
+
+        <div class="hero-mini-grid">
+          <div class="hero-mini-card">
+            <div class="hero-mini-label">Signals</div>
+            <div class="hero-mini-value">500+</div>
+            <p>Weekly hiring and skill-demand cues shaping better roadmap decisions.</p>
+          </div>
+          <div class="hero-mini-card">
+            <div class="hero-mini-label">Proof</div>
+            <div class="hero-mini-value">3-5</div>
+            <p>Recruiter-facing projects per track, designed to look strong in real portfolios.</p>
+          </div>
+          <div class="hero-mini-card">
+            <div class="hero-mini-label">Momentum</div>
+            <div class="hero-mini-value">24/7</div>
+            <p>AI guidance across roadmap, resume, billing, and interview prep without waiting.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-stage">
+        <div class="metric-cards">
+          <div class="mc mc1"><div class="mc-label">Resume Score</div><div class="mc-val">87/100</div><div class="mc-sub">▲ +12 this week</div></div>
+          <div class="mc mc2"><div class="mc-label">Job Match</div><div class="mc-val">96% Match</div><div class="mc-sub">Razorpay · Frontend</div></div>
+          <div class="mc mc3"><div class="mc-label">Daily Streak</div><div class="mc-val">🔥 14 Days</div><div class="mc-sub">Top 5% learners</div></div>
+          <div class="mc mc4"><div class="mc-label">XP Earned</div><div class="mc-val">2,340 XP</div><div class="mc-sub">Level 7 → 8 soon</div></div>
+        </div>
+
+        <div class="hero-stage-shell">
+          <div class="hero-stage-head">
+            <div>
+              <div class="hero-stage-kicker">Career Control Center</div>
+              <h3>Everything that matters, on one screen.</h3>
+            </div>
+            <div class="hero-live-pill">Live Momentum</div>
+          </div>
+
+          <div class="hero-stage-layout">
+            <div class="hero-stage-main">
+              <div class="hero-stage-panel hero-stage-panel-primary">
+                <div class="hero-panel-label">Target Role</div>
+                <div class="hero-panel-title">Frontend Engineer + AI Workflows</div>
+                <div class="hero-progress-list">
+                  <div class="hero-progress-item">
+                    <div class="hero-progress-meta"><span>React Mastery</span><strong>82%</strong></div>
+                    <div class="hero-progress-track"><span class="hero-progress-fill hero-progress-fill-82"></span></div>
+                  </div>
+                  <div class="hero-progress-item">
+                    <div class="hero-progress-meta"><span>Portfolio Projects</span><strong>68%</strong></div>
+                    <div class="hero-progress-track"><span class="hero-progress-fill hero-progress-fill-68"></span></div>
+                  </div>
+                  <div class="hero-progress-item">
+                    <div class="hero-progress-meta"><span>Interview Readiness</span><strong>74%</strong></div>
+                    <div class="hero-progress-track"><span class="hero-progress-fill hero-progress-fill-74"></span></div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="hero-stage-panel hero-stage-panel-secondary">
+                <div class="hero-panel-label">This Week</div>
+                <div class="hero-task-list">
+                  <div class="hero-task-item"><span class="hero-task-check">01</span><span>Ship a recruiter-grade dashboard project</span></div>
+                  <div class="hero-task-item"><span class="hero-task-check">02</span><span>Refine resume bullets with measurable outcomes</span></div>
+                  <div class="hero-task-item"><span class="hero-task-check">03</span><span>Run 2 mock interview rounds with AI feedback</span></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="hero-stage-side">
+              <div class="hero-stage-stat">
+                <div class="hero-stage-stat-label">Job Match</div>
+                <div class="hero-stage-stat-value">96%</div>
+                <div class="hero-stage-stat-copy">Based on your roadmap, projects, and current stack.</div>
+              </div>
+              <div class="hero-stage-stat">
+                <div class="hero-stage-stat-label">Next Milestone</div>
+                <div class="hero-stage-stat-value">7 Days</div>
+                <div class="hero-stage-stat-copy">Complete one polished capstone and unlock stronger referrals.</div>
+              </div>
+              <div class="artifact-wrap hero-artifact">
+                <div class="artifact">
+                  <div class="ring"></div>
+                  <div class="orbit-dot"></div>
+                  <div class="orbit-dot2"></div>
+                  <div class="crystal">
+                    <div class="crystal-face f">🚀</div>
+                    <div class="crystal-face b">🤖</div>
+                    <div class="crystal-face l">📚</div>
+                    <div class="crystal-face r">💼</div>
+                    <div class="crystal-face t">🏆</div>
+                    <div class="crystal-face d">💡</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-stage-footer">
+            <div><strong>10K+</strong><span>Active learners building weekly momentum</span></div>
+            <div><strong>13</strong><span>Real YouTube + web courses curated right now</span></div>
+            <div><strong>4.9★</strong><span>Trust earned through useful daily outcomes</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="proof-strip">
+    <div class="proof-strip-label">High-demand tracks</div>
+    <div class="proof-strip-items">
+      <span>React & Frontend</span>
+      <span>Machine Learning</span>
+      <span>Data Science</span>
+      <span>Cloud & AWS</span>
+      <span>LLM Engineering</span>
+      <span>SQL & Analytics</span>
+      <span>Interview Systems</span>
+      <span>Portfolio Sprints</span>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-row">
+    <div class="s-item"><span class="s-num" id="sn1">0</span><div class="s-lbl">Students Enrolled</div><div class="s-bar"></div></div>
+    <div class="s-item"><span class="s-num" id="sn2">0</span><div class="s-lbl">Jobs Placed</div><div class="s-bar"></div></div>
+    <div class="s-item"><span class="s-num" id="sn3">0</span><div class="s-lbl">Live Courses</div><div class="s-bar"></div></div>
+    <div class="s-item"><span class="s-num">4.9★</span><div class="s-lbl">Avg Rating</div><div class="s-bar"></div></div>
+    <div class="s-item"><span class="s-num">₹18L</span><div class="s-lbl">Avg Package</div><div class="s-bar"></div></div>
+  </div>
+
+  <div class="sec home-ops">
+    <div class="sec-kicker">How It Works</div>
+    <h2 class="sec-h">A sharper system from confusion to offer letter.</h2>
+    <p class="sec-p">The product is designed like an operating loop: find your lane, build real signal, and convert your work into something the market respects.</p>
+    <div class="ops-grid">
+      <div class="ops-card">
+        <div class="ops-step">01</div>
+        <h3>Diagnose The Right Lane</h3>
+        <p>Use the Career Blueprint and AI mentor to remove guesswork and focus on one clear path instead of five half-started ones.</p>
+      </div>
+      <div class="ops-card">
+        <div class="ops-step">02</div>
+        <h3>Build Visible Proof</h3>
+        <p>Ship projects, improve your resume, and stack skills in the exact order that makes your profile feel stronger every week.</p>
+      </div>
+      <div class="ops-card">
+        <div class="ops-step">03</div>
+        <h3>Convert Into Outcomes</h3>
+        <p>Move into mock interviews, job matching, recruiter-facing polish, and consistent support when the stakes become real.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FEATURES BENTO -->
+  <div class="sec">
+    <div class="sec-kicker">Why SkillForge AI Wins</div>
+    <h2 class="sec-h">Everything ambitious students need,<br>stitched into one system.</h2>
+    <p class="sec-p">Not a random course dump. A modern product experience built around momentum, proof, and placement leverage.</p>
+    <div class="bento">
+      <div class="bento-card span2"><div class="b-num">01</div><div class="b-icon">🤖</div><div class="b-h">AI Career Path Engine</div><div class="b-p">Personalized roadmap built from your interests + live market demand data from 500+ companies. Updates every week with real hiring trends.</div></div>
+      <div class="bento-card"><div class="b-num">02</div><div class="b-icon">🏗️</div><div class="b-h">Real Projects</div><div class="b-p">Portfolio projects recruiters actually look for. 3–5 per course, industry-grade.</div></div>
+      <div class="bento-card"><div class="b-num">03</div><div class="b-icon">💼</div><div class="b-h">Placement Support</div><div class="b-p">Resume AI review, mock interviews, direct recruiter connects. 500+ partner companies.</div></div>
+      <div class="bento-card"><div class="b-num">04</div><div class="b-icon">🎓</div><div class="b-h">Blockchain Certs</div><div class="b-p">Tamper-proof certificates verified on-chain. One-click LinkedIn share.</div></div>
+      <div class="bento-card"><div class="b-num">05</div><div class="b-icon">🔥</div><div class="b-h">Gamified Learning</div><div class="b-p">Streaks, XP, leaderboards, badges. Makes learning genuinely addictive.</div></div>
+      <div class="bento-card span2"><div class="b-num">06</div><div class="b-icon">🧠</div><div class="b-h">AI Study Tutor — 24/7 Personal Einstein</div><div class="b-p">Explain any concept, generate custom quizzes, and create practice problems on demand. Powered by SkillForge AI. Available day and night, never judges, always patient.</div></div>
+      <div class="bento-card"><div class="b-num">07</div><div class="b-icon">📅</div><div class="b-h">Smart Study Plan</div><div class="b-p">AI builds your week-by-week schedule based on your goal and timeline.</div></div>
+      <div class="bento-card"><div class="b-num">08</div><div class="b-icon">💬</div><div class="b-h">24/7 Support</div><div class="b-p">AI handles billing, tech issues, course queries instantly.</div></div>
+    </div>
+  </div>
+
+  <!-- COURSE MARQUEE -->
+  <div class="sec home-trending-wrap">
+    <div class="home-trending-head">
+      <div class="sec-kicker">Trending Courses</div>
+      <h2 class="sec-h home-trending-title">High-conviction tracks students are betting on now</h2>
+      <p class="sec-p home-trending-copy">A tight lineup of roles and skills with strong hiring gravity, polished projects, and clear next steps.</p>
+    </div>
+    <div class="marquee-wrap"><div class="marquee-track" id="mtrack"></div></div>
+  </div>
+
+  <!-- PARTNER PLATFORMS PREVIEW -->
+  <div class="platforms-section">
+    <div class="platforms-shell">
+      <div class="sec-kicker">Partner Platforms</div>
+      <h2 class="sec-h">Linked to every major skill platform</h2>
+      <p class="sec-p">Access courses, certifications and tools from the world's leading platforms — all in one place.</p>
+      <div class="plat-grid" id="platGridHome"></div>
+      <div class="platforms-cta"><button class="btn-secondary" onclick="go('connect')">View All 40+ Platforms →</button></div>
+    </div>
+  </div>
+
+  <!-- TESTIMONIALS -->
+  <div class="sec">
+    <div class="sec-kicker">Student Stories</div>
+    <h2 class="sec-h">From confused to confidently marketable.</h2>
+    <p class="sec-p">What matters is not motivation theater. It is clarity, consistency, and visible proof that compounds.</p>
+    <div class="testi-grid" id="testiGrid3"></div>
+  </div>
+
+  <!-- PRICING -->
+  <div class="sec pricing-section">
+    <div class="pricing-inner">
+      <div class="pricing-head">
+        <div class="sec-kicker kicker-center">Pricing</div>
+        <h2 class="sec-h text-center">Use one free unlock. Upgrade after that.</h2>
+        <p class="pricing-note">One-time free access is available. After your first unlock, a paid plan is required.</p>
+        <div class="pricing-proof">
+          <span>One-time free trial</span>
+          <span>Pro unlocks full access</span>
+          <span>Premium adds mentorship</span>
+        </div>
+      </div>
+      <div class="pricing-grid">
+        <div class="plan">
+          <div class="plan-name">1-Time Trial</div>
+          <div class="plan-price"><sup>₹</sup>0<sub>/mo</sub></div>
+          <div class="plan-tagline">One free unlock, then paid access</div>
+          <ul class="plan-feats">
+            <li class="on">1 Premium action free</li><li class="on">Browse real course links</li><li class="on">Try one AI tool once</li><li class="on">Community</li>
+            <li class="off">Certificates</li><li class="off">Job Portal</li>
+          </ul>
+          <button class="btn-secondary btn-full" onclick="go('courses')">Use 1 Free Unlock</button>
+        </div>
+        <div class="plan pop">
+          <div class="plan-popular">Most Popular</div>
+          <div class="plan-name">Pro</div>
+          <div class="plan-price"><sup>₹</sup>499<sub>/mo</sub></div>
+          <div class="plan-tagline">Unlock all core access after trial</div>
+          <ul class="plan-feats">
+            <li class="on">AI-built Study Paths</li><li class="on">Unlimited AI Mentor</li><li class="on">Blockchain Certs</li><li class="on">AI Resume Builder</li><li class="on">Full Job Portal</li><li class="on">AI Study Tutor</li>
+          </ul>
+          <button class="btn-primary btn-full" onclick="rzpay(499,'Pro Plan')">Pay ₹499 via Razorpay</button>
+          <div class="pay-note">🔒 Secured · 7-day refund guarantee</div>
+        </div>
+        <div class="plan">
+          <div class="plan-name">Premium</div>
+          <div class="plan-price"><sup>₹</sup>999<sub>/mo</sub></div>
+          <div class="plan-tagline">Placement guaranteed</div>
+          <ul class="plan-feats">
+            <li class="on">Everything in Pro</li><li class="on">AI Tools Suite</li><li class="on">1-on-1 Mentorship</li><li class="on">Mock Interviews</li><li class="on">Placement Guarantee</li><li class="on">Priority Support</li>
+          </ul>
+          <button class="btn-primary btn-full btn-premium" onclick="rzpay(999,'Premium Plan')">Pay ₹999 via Razorpay</button>
+          <div class="pay-note">🔒 Secured · 7-day refund guarantee</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTACT STRIP -->
+  <div class="contact-strip">
+    <div class="contact-main">
+      <div class="contact-kicker">Founder-Led Support</div>
+      <div class="contact-title">Need clarity, fast feedback, or a human touchpoint?</div>
+      <div class="contact-copy">Reach out by email, phone, or AI chat. The whole experience is designed to keep students moving instead of getting stuck.</div>
+    </div>
+    <div class="contact-actions">
+      <div class="contact-block">
+        <div class="contact-icon">📧</div>
+        <div><div class="contact-label">Email Support</div><div class="contact-val"><a data-contact-email href="mailto:wakodeaharshal@gmail.com">wakodeaharshal@gmail.com</a></div></div>
+      </div>
+      <div class="contact-block">
+        <div class="contact-icon">📞</div>
+        <div><div class="contact-label">Phone / WhatsApp</div><div class="contact-val"><a data-contact-phone href="tel:+919209630283">+91 9209630283</a></div></div>
+      </div>
+      <button class="btn-primary" onclick="go('chat')">Open AI Concierge</button>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-main">
+      <div>
+        <div class="footer-kicker">Career Infrastructure For Ambitious Students</div>
+        <div class="footer-brand"><em>Skill</em>Forge AI</div>
+        <div class="footer-bio">A premium AI-first learning and placement experience for students who want direction, proof, and serious upward momentum.</div>
+        <div class="footer-contact">
+          <div class="fc"><span class="fc-icon">📧</span><a data-contact-email href="mailto:wakodeaharshal@gmail.com">wakodeaharshal@gmail.com</a></div>
+          <div class="fc"><span class="fc-icon">📞</span><a data-contact-phone href="tel:+919209630283">+91 9209630283</a></div>
+        </div>
+        <div class="social-row">
+          <a class="social-btn3" data-social-link="linkedin" href="#" target="_blank" rel="noopener noreferrer" hidden>💼 LinkedIn</a>
+          <a class="social-btn3" data-social-link="instagram" href="#" target="_blank" rel="noopener noreferrer" hidden>📸 Instagram</a>
+          <a class="social-btn3" data-social-link="youtube" href="#" target="_blank" rel="noopener noreferrer" hidden>▶️ YouTube</a>
+          <a class="social-btn3" data-social-link="github" href="#" target="_blank" rel="noopener noreferrer" hidden>🐙 GitHub</a>
+        </div>
+      </div>
+      <div><div class="footer-h">Platform</div><ul class="footer-ul"><li><a href="#" onclick="go('courses');return false">Courses</a></li><li><a href="#" onclick="go('tutor');return false">AI Tutor</a></li><li><a href="#" onclick="go('plan');return false">Learning Plan</a></li><li><a href="#" onclick="go('jobs');return false">Jobs</a></li><li><a href="#" onclick="go('blueprint');return false">Blueprint</a></li></ul></div>
+      <div><div class="footer-h">Company</div><ul class="footer-ul"><li><a href="#" onclick="go('founder');return false">About Founder</a></li><li><a href="#" onclick="go('connect');return false">Integrations</a></li><li><a href="blog.html">Blog</a></li><li><a href="careers.html">Careers</a></li><li><a href="press.html">Press</a></li></ul></div>
+      <div><div class="footer-h">Support</div><ul class="footer-ul"><li><a href="#" onclick="go('chat');return false">AI Chat</a></li><li><a data-contact-email href="mailto:wakodeaharshal@gmail.com">Email Us</a></li><li><a data-contact-phone href="tel:+919209630283">Call Us</a></li><li><a href="help-center.html">Help Center</a></li><li><a href="refund-policy.html">Refund Policy</a></li></ul></div>
+      <div><div class="footer-h">Legal</div><ul class="footer-ul"><li><a href="privacy.html">Privacy</a></li><li><a href="terms.html">Terms</a></li><li><a href="cookies.html">Cookies</a></li><li><a href="sitemap.html">Sitemap</a></li></ul></div>
+    </div>
+    <div class="footer-bottom">
+      <span>© <span id="yearNow"></span> SkillForge AI · Built by <a href="#" onclick="go('founder');return false">Harshal Panjabrao Wakode</a></span>
+      <span>📧 <a data-contact-email href="mailto:wakodeaharshal@gmail.com">wakodeaharshal@gmail.com</a> · 📞 <a data-contact-phone href="tel:+919209630283">+91 9209630283</a></span>
+      <span>Founder-led · Secure checkout ready · Made in India</span>
+    </div>
+  </footer>
+</div><!-- /page-home -->
+
+<!-- ═══════════════════════ DASHBOARD ═══════════════════════ -->
+<div id="page-dashboard" class="page">
+  <div class="dash-layout">
+    <div class="sidebar">
+      <div class="sb-sect">Main</div>
+      <ul class="sb-nav">
+        <li><a href="#" class="on" onclick="go('dashboard');return false">🏠 Dashboard</a></li>
+        <li><a href="#" onclick="go('courses');return false">📚 My Courses</a></li>
+        <li><a href="#" onclick="go('tutor');return false">🧠 AI Tutor</a></li>
+        <li><a href="#" onclick="go('plan');return false">📅 Learning Plan</a></li>
+      </ul>
+      <div class="sb-sect">Career</div>
+      <ul class="sb-nav">
+        <li><a href="#" onclick="go('jobs');return false">💼 Jobs</a></li>
+        <li><a href="#" onclick="go('chat');return false">🤖 AI Mentor</a></li>
+        <li><a href="#" onclick="go('blueprint');return false">🗺️ Blueprint</a></li>
+      </ul>
+      <div class="sb-sect">More</div>
+      <ul class="sb-nav">
+        <li><a href="#" onclick="go('founder');return false">👤 Founder</a></li>
+        <li><a href="#" onclick="go('connect');return false">🔗 Platforms</a></li>
+      </ul>
+    </div>
+    <div class="main-d">
+      <div class="d-welcome">
+        <div>
+          <div class="d-greeting">Good morning, student 👋</div>
+          <h2>Welcome back, <em id="dashboardUserName">Harshal</em>!</h2>
+          <div class="d-welcome-meta"><span id="dashboardDay">Today</span> · 14-day streak active · Level 7 Pro Learner</div>
+          <div class="dashboard-user-email" id="dashboardUserEmail">Sign in with email OTP to save your learning dashboard.</div>
+        </div>
+        <div class="streak-badge">🔥 14 Day Streak</div>
+      </div>
+      <div class="xp-bar">
+        <div class="xp-row"><div class="xp-level">Level 7 — Pro Learner 🏅</div><div class="xp-pts">2,340 / 3,000 XP</div></div>
+        <div class="xp-track"><div class="xp-fill width-78"></div></div>
+        <div class="xp-meta"><span>Level 7</span><span>78% complete</span><span>Level 8</span></div>
+      </div>
+      <div class="d-cards">
+        <div class="dc"><div class="dc-icon">📚</div><div class="dc-val tone-electric">4</div><div class="dc-lbl">Active Courses</div></div>
+        <div class="dc"><div class="dc-icon">✅</div><div class="dc-val tone-emerald">2</div><div class="dc-lbl">Completed</div></div>
+        <div class="dc"><div class="dc-icon">📄</div><div class="dc-val tone-amber">87</div><div class="dc-lbl">Resume Score</div></div>
+        <div class="dc"><div class="dc-icon">💼</div><div class="dc-val tone-rose">12</div><div class="dc-lbl">Job Matches</div></div>
+      </div>
+      <div class="section-row"><div class="section-row-title">📚 In Progress</div><a href="#" onclick="go('courses');return false" class="section-row-link">See all →</a></div>
+      <div class="prog-grid">
+        <div class="prog-card"><div class="prog-em">🌐</div><div class="prog-i"><div class="prog-title">Responsive Web Design Certification</div><div class="prog-sub">Section 4 of 9 · portfolio sprint next</div><div class="prog-bar"><div class="prog-fill width-55"></div></div><div class="prog-pct">55%</div></div></div>
+        <div class="prog-card"><div class="prog-em">🐍</div><div class="prog-i"><div class="prog-title">Python for Data Science - Course for Beginners</div><div class="prog-sub">Notebook 3 of 10 · 7h left</div><div class="prog-bar"><div class="prog-fill width-28"></div></div><div class="prog-pct">28%</div></div></div>
+        <div class="prog-card"><div class="prog-em">🤖</div><div class="prog-i"><div class="prog-title">Machine Learning Crash Course</div><div class="prog-sub">Module 2 of 9 · labs ahead</div><div class="prog-bar"><div class="prog-fill width-9"></div></div><div class="prog-pct">9%</div></div></div>
+        <div class="prog-card"><div class="prog-em">☁️</div><div class="prog-i"><div class="prog-title">AWS Cloud Practitioner Essentials</div><div class="prog-sub">Course 8 of 12 · 1.5h left</div><div class="prog-bar"><div class="prog-fill width-82"></div></div><div class="prog-pct">82%</div></div></div>
+      </div>
+      <div class="section-row"><div class="section-row-title">💼 AI Job Matches</div><a href="#" onclick="go('jobs');return false" class="section-row-link">See all 12 →</a></div>
+      <div class="job-card"><div class="job-logo">🏢</div><div class="job-main"><div class="job-role">Frontend Developer</div><div class="job-company">Razorpay · Remote</div><div class="job-tags"><span class="jtag">React</span><span class="jtag">TypeScript</span><span class="jtag">Next.js</span></div></div><div class="job-right"><div class="job-sal">₹12-18 LPA</div><div class="job-match">96% MATCH</div><button class="job-apply-btn">Apply →</button></div></div>
+      <div class="job-card"><div class="job-logo">💳</div><div class="job-main"><div class="job-role">ML Engineer</div><div class="job-company">Paytm · Hybrid</div><div class="job-tags"><span class="jtag">PyTorch</span><span class="jtag">Python</span></div></div><div class="job-right"><div class="job-sal">₹18-30 LPA</div><div class="job-match">91% MATCH</div><button class="job-apply-btn">Apply →</button></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ COURSES ═══════════════════════ -->
+<div id="page-courses" class="page">
+  <div class="page-shell">
+    <div class="page-head"><div class="sec-kicker">Courses</div><h2>Explore All Courses</h2><p>Real courses from YouTube + trusted web platforms · AI-built study plans · Direct source links</p></div>
+    <div class="course-source-note">Real source courses from YouTube and trusted platforms. SkillForge gives one free unlock, then paid access is required.</div>
+    <section class="ai-builder" id="aiCourseBuilder">
+      <div class="ai-builder-head">
+        <div>
+          <div class="sec-kicker">AI Course Builder</div>
+          <h3>Generate a SkillForge path from real internet courses</h3>
+          <p>Pick one goal. SkillForge AI sequences curated YouTube videos and official learning platforms into a tighter plan with projects, milestones, and the right starting order.</p>
+        </div>
+        <div class="ai-builder-badge">Real links · AI sequencing · project-first</div>
+      </div>
+      <div class="ai-track-pills" id="aiTrackPills"></div>
+      <div class="ai-track-card" id="aiTrackOut"></div>
+    </section>
+    <div class="filter-row">
+      <button class="fb on" data-cat="all" onclick="fC('all',this)">All</button>
+      <button class="fb" data-cat="web" onclick="fC('web',this)">Web + Design</button>
+      <button class="fb" data-cat="ai" onclick="fC('ai',this)">AI/ML</button>
+      <button class="fb" data-cat="data" onclick="fC('data',this)">Data Science</button>
+      <button class="fb" data-cat="cloud" onclick="fC('cloud',this)">Cloud</button>
+      <button class="fb" data-cat="mobile" onclick="fC('mobile',this)">Mobile</button>
+      <button class="fb" data-cat="dsa" onclick="fC('dsa',this)">DSA</button>
+      <button class="fb" data-cat="cyber" onclick="fC('cyber',this)">Cybersecurity</button>
+    </div>
+    <div class="courses-grid3" id="cGrid3"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ JOBS ═══════════════════════ -->
+<div id="page-jobs" class="page">
+  <div class="page-shell">
+    <div class="page-head"><div class="sec-kicker">Job Portal</div><h2>Find Your Dream Job</h2><p>500+ companies · AI-matched to your profile · Apply in one click</p></div>
+    <div class="filter-row">
+      <input class="job-search-input" type="text" placeholder="🔍 Search role, company, skill..." id="jSrch" aria-label="Search jobs by role, company, or skill" oninput="fJ()">
+      <select class="job-search-select" id="jTyp" aria-label="Filter jobs by work type" onchange="fJ()">
+        <option value="">All Types</option><option>Remote</option><option>Hybrid</option><option>On-site</option>
+      </select>
+    </div>
+    <div id="jList3"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ AI CHAT ═══════════════════════ -->
+<div id="page-chat" class="page">
+  <div class="chat-shell">
+    <div class="page-head"><div class="sec-kicker">AI Career Mentor + Support</div><h2>Your AI Assistant 🤖</h2><p>Career advice · Course help · Billing · Resume tips · 24/7</p></div>
+    <div class="sugg-row2">
+      <button class="sugg2" onclick="sendS3('I like tech but I am confused which path to choose')">🤔 Confused about path</button>
+      <button class="sugg2" onclick="sendS3('Help me build a resume for frontend developer role')">📄 Resume help</button>
+      <button class="sugg2" onclick="sendS3('What skills should I learn for Data Science in 2026?')">📊 Data Science path</button>
+      <button class="sugg2" onclick="sendS3('I have a billing question about my subscription')">💳 Billing support</button>
+      <button class="sugg2" onclick="sendS3('How do I get my certificate after completing a course?')">🎓 Certificate help</button>
+    </div>
+    <div class="chat-box" id="chatBox3">
+      <div class="chat-bubble-wrap b"><div class="cb-name">🤖 SkillForge AI</div><div class="cb" id="chatIntroText">Hi! I'm your AI assistant for SkillForge AI — founded by Harshal Panjabrao Wakode.<br><br>I can help with career paths, course recs, resume tips, billing, and more.<br><br>📧 wakodeaharshal@gmail.com · 📞 +91 9209630283<br><br>What's on your mind? 🚀</div></div>
+    </div>
+    <div class="chat-row">
+      <input class="chat-inp" id="chatI3" aria-label="Message SkillForge AI assistant" placeholder="Ask anything — career, courses, billing, tech..." onkeydown="if(event.key==='Enter')sendC3()">
+      <button class="chat-send" onclick="sendC3()">Send →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ AI TUTOR ═══════════════════════ -->
+<div id="page-tutor" class="page">
+  <div class="tutor-shell">
+    <div class="page-head"><div class="sec-kicker">AI Study Tutor</div><h2>Your Personal AI Tutor 🧠</h2><p>Pick topic → AI lesson → Quiz → Level up! Powered by SkillForge AI.</p></div>
+    <div class="tutor-layout">
+      <div>
+        <div class="tutor-panel">
+          <h3>📚 Choose Topic</h3>
+          <div class="topic-grid3">
+            <button class="topicbtn" onclick="lTopic('JavaScript Promises & Async/Await',this)">⚡ JS Async</button>
+            <button class="topicbtn" onclick="lTopic('React Hooks - useState & useEffect',this)">⚛️ React Hooks</button>
+            <button class="topicbtn" onclick="lTopic('Machine Learning: Linear Regression explained simply',this)">📈 Linear Regression</button>
+            <button class="topicbtn" onclick="lTopic('Python Data Structures: Lists, Dicts, Sets',this)">🐍 Python DS</button>
+            <button class="topicbtn" onclick="lTopic('SQL JOINs explained with examples',this)">🗃️ SQL Joins</button>
+            <button class="topicbtn" onclick="lTopic('REST APIs and HTTP Methods',this)">🌐 REST APIs</button>
+            <button class="topicbtn" onclick="lTopic('CSS Flexbox and Grid layout',this)">🎨 CSS Layout</button>
+            <button class="topicbtn" onclick="lTopic('Dynamic Programming basics',this)">🧩 Dynamic Prog</button>
+            <button class="topicbtn" onclick="lTopic('System Design: fundamentals for interviews',this)">🏗️ System Design</button>
+            <button class="topicbtn" onclick="lTopic('Big O Notation and Time Complexity',this)">⏱️ Big O</button>
+            <button class="topicbtn" onclick="lTopic('TypeScript basics for React developers',this)">📘 TypeScript</button>
+            <button class="topicbtn" onclick="lTopic('Docker and containerization basics',this)">🐳 Docker</button>
+          </div>
+          <div class="tutor-custom">
+            <input id="custT" class="tutor-custom-input" aria-label="Enter a custom tutor topic" placeholder="Or type any topic...">
+            <button class="btn-primary btn-full-compact" onclick="lTopic(document.getElementById('custT').value)">🤖 Generate AI Lesson</button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="tutor-panel panel-gap">
+          <h3>📖 AI Lesson</h3>
+          <div class="lesson-area"><div id="lessonOut" class="lesson-placeholder">← Select a topic to generate your lesson</div></div>
+        </div>
+        <div class="tutor-panel is-hidden" id="quizP3">
+          <h3>🎯 Quick Quiz</h3>
+          <div class="quiz-q3" id="qQ3"></div>
+          <div id="qOpts3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ LEARNING PLAN ═══════════════════════ -->
+<div id="page-plan" class="page">
+  <div class="plan-shell">
+    <div class="page-head"><div class="sec-kicker">AI Learning Plan</div><h2>Your Smart Study Roadmap 📅</h2><p>AI-generated week-by-week plan · Goal: Full Stack Developer in 6 months</p></div>
+    <button class="btn-outline plan-regen" onclick="rePlan()">🤖 Regenerate with AI</button>
+    <div class="roadmap3" id="rm3">
+      <div class="rm-item"><div class="rm-dot3 done">✓</div><div class="rm-body"><div class="rm-wk">WEEK 1–2</div><div class="rm-ti">HTML/CSS Foundations</div><div class="rm-de">Semantic HTML5, CSS3, Flexbox, Grid. Build 2 responsive landing pages.</div><div class="rm-chips"><span class="rmchip e">HTML5</span><span class="rmchip g">✓ Done</span></div></div></div>
+      <div class="rm-item"><div class="rm-dot3 done">✓</div><div class="rm-body"><div class="rm-wk">WEEK 3–4</div><div class="rm-ti">JavaScript Essentials</div><div class="rm-de">ES6+, DOM, async/await, fetch API. Build weather app + to-do list.</div><div class="rm-chips"><span class="rmchip e">JavaScript</span><span class="rmchip g">✓ Done</span></div></div></div>
+      <div class="rm-item"><div class="rm-dot3 active">→</div><div class="rm-body rm-body-active"><div class="rm-wk">WEEK 5–7 · CURRENT</div><div class="rm-ti">React.js Deep Dive</div><div class="rm-de">Components, hooks, state, Context API. Build full e-commerce UI. Your focus right now!</div><div class="rm-chips"><span class="rmchip e">React</span><span class="rmchip a">⚡ In Progress</span></div></div></div>
+      <div class="rm-item"><div class="rm-dot3 locked">🔒</div><div class="rm-body"><div class="rm-wk">WEEK 8–10</div><div class="rm-ti">Next.js + TypeScript</div><div class="rm-de">SSR, API routes, TypeScript. Build a full Next.js blog with auth.</div><div class="rm-chips"><span class="rmchip e">Next.js</span><span class="rmchip e">TypeScript</span></div></div></div>
+      <div class="rm-item"><div class="rm-dot3 locked">🔒</div><div class="rm-body"><div class="rm-wk">WEEK 11–14</div><div class="rm-ti">Node.js + Express Backend</div><div class="rm-de">REST APIs, MongoDB, JWT auth. Connect frontend to real backend.</div><div class="rm-chips"><span class="rmchip e">Node.js</span><span class="rmchip e">MongoDB</span></div></div></div>
+      <div class="rm-item"><div class="rm-dot3 locked">🔒</div><div class="rm-body"><div class="rm-wk">WEEK 15–18</div><div class="rm-ti">Full Stack Capstone</div><div class="rm-de">Complete full-stack app with auth, real-time, and DB. Portfolio centerpiece.</div><div class="rm-chips"><span class="rmchip a">🎯 Capstone</span></div></div></div>
+      <div class="rm-item"><div class="rm-dot3 locked">🔒</div><div class="rm-body"><div class="rm-wk">WEEK 19–24</div><div class="rm-ti">Job Hunting + Placement</div><div class="rm-de">Resume, 100+ applications, mock interviews, offer negotiation. AI tracks everything.</div><div class="rm-chips"><span class="rmchip g">🏆 Goal</span></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ BLUEPRINT ═══════════════════════ -->
+<div id="page-blueprint" class="page">
+  <div class="bp-shell">
+    <div class="page-head"><div class="sec-kicker">🔥 AI Blueprint Generator</div><h2>Career Blueprint in 5 Steps</h2><p>5 quick questions → Your complete AI-powered career roadmap</p></div>
+    <div id="bpQuiz">
+      <div class="q-step4 on" id="bq1"><div class="q-prog4"><div class="q-prog-fill4 width-20"></div></div><div class="q-num4">Question 1 of 5</div><div class="q-title4">What's your current background? 🎓</div><div class="q-opts4"><div class="q-opt4" onclick="bpSel(this,'bg','Student')">🎓 Student / Fresher</div><div class="q-opt4" onclick="bpSel(this,'bg','Working Professional')">💼 Working Professional</div><div class="q-opt4" onclick="bpSel(this,'bg','Career Switcher')">🔄 Career Switcher</div><div class="q-opt4" onclick="bpSel(this,'bg','Entrepreneur')">🚀 Entrepreneur</div></div><button class="q-next4" onclick="bpGo(2)">Next →</button></div>
+      <div class="q-step4" id="bq2"><div class="q-prog4"><div class="q-prog-fill4 width-40"></div></div><div class="q-num4">Question 2 of 5</div><div class="q-title4">What interests you most? 💡</div><div class="q-opts4"><div class="q-opt4" onclick="bpSel(this,'int','Tech / Coding')">💻 Tech / Coding</div><div class="q-opt4" onclick="bpSel(this,'int','Data / Analytics')">📊 Data / Analytics</div><div class="q-opt4" onclick="bpSel(this,'int','AI / Machine Learning')">🤖 AI / ML</div><div class="q-opt4" onclick="bpSel(this,'int','Design / Product')">🎨 Design / Product</div></div><button class="q-next4" onclick="bpGo(3)">Next →</button></div>
+      <div class="q-step4" id="bq3"><div class="q-prog4"><div class="q-prog-fill4 width-60"></div></div><div class="q-num4">Question 3 of 5</div><div class="q-title4">Current skill level? 📈</div><div class="q-opts4"><div class="q-opt4" onclick="bpSel(this,'lvl','Beginner')">🌱 Beginner</div><div class="q-opt4" onclick="bpSel(this,'lvl','Intermediate')">🌿 Intermediate</div><div class="q-opt4" onclick="bpSel(this,'lvl','Advanced')">🌳 Advanced</div><div class="q-opt4" onclick="bpSel(this,'lvl','Expert')">🏆 Expert</div></div><button class="q-next4" onclick="bpGo(4)">Next →</button></div>
+      <div class="q-step4" id="bq4"><div class="q-prog4"><div class="q-prog-fill4 width-80"></div></div><div class="q-num4">Question 4 of 5</div><div class="q-title4">Salary goal? 💰</div><div class="q-opts4"><div class="q-opt4" onclick="bpSel(this,'sal','3-6 LPA')">₹3-6 LPA Entry</div><div class="q-opt4" onclick="bpSel(this,'sal','6-12 LPA')">₹6-12 LPA Mid</div><div class="q-opt4" onclick="bpSel(this,'sal','12-25 LPA')">₹12-25 LPA Senior</div><div class="q-opt4" onclick="bpSel(this,'sal','25+ LPA')">₹25+ LPA Lead</div></div><button class="q-next4" onclick="bpGo(5)">Next →</button></div>
+      <div class="q-step4" id="bq5"><div class="q-prog4"><div class="q-prog-fill4 width-100"></div></div><div class="q-num4">Question 5 of 5</div><div class="q-title4">Timeline to placement? ⏰</div><div class="q-opts4"><div class="q-opt4" onclick="bpSel(this,'tl','1-3 months')">⚡ ASAP (1-3 months)</div><div class="q-opt4" onclick="bpSel(this,'tl','3-6 months')">📅 3-6 months</div><div class="q-opt4" onclick="bpSel(this,'tl','6-12 months')">🗓️ 6-12 months</div><div class="q-opt4" onclick="bpSel(this,'tl','12+ months')">🌊 1+ year</div></div><button class="q-next4" onclick="genBP3()">🚀 Generate Blueprint</button></div>
+    </div>
+    <div id="bpResult" class="is-hidden">
+      <div class="bp-result-head"><div class="bp-result-icon">🎯</div><h3 class="bp-result-title">Your AI Career Blueprint</h3><p id="bpTag" class="bp-result-tagline"></p></div>
+      <div class="res-grid4" id="bpGrid3"></div>
+      <div class="bp-actions">
+        <button class="btn-primary" onclick="go('chat')">💬 Discuss with AI Mentor</button>
+        <button class="btn-secondary" onclick="restBP3()">🔄 Retake Quiz</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ FOUNDER ═══════════════════════ -->
+<div id="page-founder" class="page">
+  <div class="founder-shell">
+    <div class="founder-grid">
+      <div class="founder-visual">
+        <div class="founder-card">
+          <div class="scan-line"></div>
+          <div class="founder-3d">
+            <div class="founder-3d-inner">
+              <div class="founder-avatar">
+                <div class="founder-glow"></div>
+                👨‍💻
+              </div>
+            </div>
+          </div>
+          <h2>Harshal Panjabrao Wakode</h2>
+          <div class="f-title">AI Engineer & AI Automation Specialist</div>
+          <div class="f-stat-row">
+            <div class="f-stat"><div class="n">10K+</div><div class="l">Students</div></div>
+            <div class="f-stat"><div class="n">500+</div><div class="l">Placed</div></div>
+            <div class="f-stat"><div class="n">13</div><div class="l">Curated courses</div></div>
+          </div>
+          <div class="f-skills">
+            <span class="f-skill">Python</span><span class="f-skill">TensorFlow</span><span class="f-skill">LangChain</span>
+            <span class="f-skill">FastAPI</span><span class="f-skill">Next.js</span><span class="f-skill">AWS</span>
+            <span class="f-skill">n8n</span><span class="f-skill">OpenAI</span>
+          </div>
+          <div class="founder-contact-meta">
+            <div class="fc"><span>📧</span><a data-contact-email href="mailto:wakodeaharshal@gmail.com" class="founder-contact-link">wakodeaharshal@gmail.com</a></div>
+            <div class="fc"><span>📞</span><a data-contact-phone href="tel:+919209630283" class="founder-contact-link">+91 9209630283</a></div>
+          </div>
+        </div>
+      </div>
+      <div class="founder-info">
+        <div class="fi-kicker">🇮🇳 Founder & CEO · SkillForge AI</div>
+        <h1><em>Harshal Panjabrao</em><br>Wakode</h1>
+        <div class="fi-role">AI Engineer & AI Automation Specialist</div>
+        <div class="mission-quote"><p>"Every student in India deserves world-class AI education, regardless of background or location."</p><cite>— Harshal Panjabrao Wakode</cite></div>
+        <div class="fi-bio">Harshal founded SkillForge AI with one mission: make AI-powered education accessible to every student in India. With deep expertise in AI systems, automation pipelines, LLMs, and edtech — he built the platform he wished existed when he was starting out. From AI engineering to teaching thousands of students, his work bridges talent and opportunity at scale.</div>
+        <div class="socials-row">
+          <a class="social-btn3" data-social-link="linkedin" href="#" target="_blank" rel="noopener noreferrer" hidden>💼 LinkedIn</a>
+          <a class="social-btn3" data-social-link="instagram" href="#" target="_blank" rel="noopener noreferrer" hidden>📸 Instagram</a>
+          <a class="social-btn3" data-social-link="youtube" href="#" target="_blank" rel="noopener noreferrer" hidden>▶️ YouTube</a>
+          <a class="social-btn3" data-social-link="github" href="#" target="_blank" rel="noopener noreferrer" hidden>🐙 GitHub</a>
+          <a class="social-btn3" data-social-link="twitter" href="#" target="_blank" rel="noopener noreferrer" hidden>🐦 Twitter/X</a>
+          <a class="social-btn3" data-contact-email href="mailto:wakodeaharshal@gmail.com">✉️ wakodeaharshal@gmail.com</a>
+          <a class="social-btn3" data-contact-phone href="tel:+919209630283">📞 9209630283</a>
+        </div>
+      </div>
+    </div>
+    <!-- journey timeline -->
+    <div class="sec-kicker journey-kicker">Journey</div>
+    <div class="journey-grid">
+      <div class="journey-card"><div class="journey-number tone-electric">2026</div><div class="journey-text">Founded SkillForge AI</div></div>
+      <div class="journey-card"><div class="journey-number tone-violet">1K+</div><div class="journey-text">First students in 3 months</div></div>
+      <div class="journey-card"><div class="journey-number tone-emerald">13</div><div class="journey-text">AI-guided course paths live</div></div>
+      <div class="journey-card"><div class="journey-number tone-rose">500+</div><div class="journey-text">Students placed in top firms</div></div>
+      <div class="journey-card"><div class="journey-number tone-amber">10K+</div><div class="journey-text">Active learners today</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ CONNECT PLATFORMS ═══════════════════════ -->
+<div id="page-connect" class="page">
+  <div class="connect-shell">
+    <div class="page-head"><div class="sec-kicker">Platform Integrations</div><h2>Connected to Every Skill Platform</h2><p>Access 30+ top learning, coding, cloud, job & community platforms. Your first SkillForge platform unlock is free once, then paid access is required.</p></div>
+    <div class="connect-badges">
+      <div class="connect-badge connect-badge-free">✅ 1X FREE TRIAL — Your first SkillForge unlock</div>
+      <div class="connect-badge connect-badge-pass">💳 PAID AFTER TRIAL — Pro or Premium required</div>
+      <div class="connect-badge connect-badge-linked">🔗 LINKED — Verified SkillForge partner</div>
+    </div>
+    <div class="plat-grid plat-grid-wide" id="allPlatGrid"></div>
+  </div>
+</div>
+
+
+<!-- ── PLATFORM ACCESS MODAL ── -->
+<div id="platModal">
+  <div class="plat-modal-card">
+    <div class="plat-modal-topline"></div>
+    <div class="plat-modal-icon">🔓</div>
+    <h3 class="plat-modal-title">Platform Access Pass</h3>
+    <p class="plat-modal-copy">You're one step away from <strong id="platModalName" class="tone-text"></strong></p>
+    <div class="plat-modal-price-box">
+      <div class="plat-modal-label">Access Pass Fee</div>
+      <div class="plat-modal-fee">₹<span id="platModalFee"></span></div>
+      <div class="plat-modal-note">One-time · Instant redirect · 100% secure</div>
+    </div>
+    <div class="plat-modal-list">
+      <div class="plat-modal-row"><span class="plat-modal-check">✓</span> Instant redirect to <span id="platModalName2" class="tone-text"> </span></div>
+      <div class="plat-modal-row"><span class="plat-modal-check">✓</span> Secured by Razorpay</div>
+      <div class="plat-modal-row"><span class="plat-modal-check">✓</span> Supports SkillForge AI platform</div>
+    </div>
+    <div class="plat-modal-actions">
+      <button onclick="closePlatModal()" class="plat-modal-cancel">Cancel</button>
+      <button onclick="confirmPlatAccess()" class="plat-modal-confirm">Pay ₹<span id="platModalPlatFee"></span> & Access →</button>
+    </div>
+    <input type="hidden" id="platModalUrl">
+    <div class="plat-modal-footer">Checkout availability loads from live configuration.</div>
+  </div>
+</div>
+
+</div><!-- /app -->
+
+<script src="site-config.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

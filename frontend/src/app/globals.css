@@ -1,0 +1,90 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --canvas: 247 249 252;
+  --surface: 255 255 255;
+  --ink: 14 23 42;
+  --muted: 95 112 141;
+  --line: 221 229 237;
+  --brand: 87 120 255;
+  --brand-deep: 63 84 218;
+  --accent: 22 199 152;
+  --glow: 113 93 255;
+}
+
+.dark {
+  --canvas: 5 10 21;
+  --surface: 14 21 38;
+  --ink: 243 246 255;
+  --muted: 146 160 190;
+  --line: 37 49 78;
+  --brand: 118 164 255;
+  --brand-deep: 86 118 240;
+  --accent: 63 214 165;
+  --glow: 119 103 255;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body), sans-serif;
+  background:
+    radial-gradient(circle at top left, rgba(87, 120, 255, 0.18), transparent 24%),
+    radial-gradient(circle at bottom right, rgba(22, 199, 152, 0.12), transparent 22%),
+    rgb(var(--canvas));
+  color: rgb(var(--ink));
+}
+
+* {
+  @apply border-line;
+}
+
+@layer components {
+  .shell {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .glass-card {
+    @apply rounded-3xl border border-line/80 bg-surface/70 shadow-glass backdrop-blur-xl;
+  }
+
+  .section-copy {
+    @apply max-w-2xl space-y-4;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border border-brand-500/20 bg-brand-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-brand-500;
+  }
+
+  .hero-gradient {
+    background:
+      radial-gradient(circle at top, rgba(87, 120, 255, 0.24), transparent 35%),
+      linear-gradient(180deg, rgba(255,255,255,.72), rgba(255,255,255,.55));
+  }
+
+  .dark .hero-gradient {
+    background:
+      radial-gradient(circle at top, rgba(118, 164, 255, 0.22), transparent 35%),
+      linear-gradient(180deg, rgba(14,21,38,.88), rgba(14,21,38,.72));
+  }
+
+  .button-primary {
+    @apply inline-flex items-center justify-center rounded-full bg-brand-500 px-5 py-3 text-sm font-semibold text-white shadow-glow transition hover:-translate-y-0.5 hover:bg-brand-600;
+  }
+
+  .button-secondary {
+    @apply inline-flex items-center justify-center rounded-full border border-line bg-surface/60 px-5 py-3 text-sm font-semibold text-ink transition hover:-translate-y-0.5 hover:bg-surface;
+  }
+
+  .input {
+    @apply w-full rounded-2xl border border-line bg-surface/70 px-4 py-3 text-sm text-ink outline-none transition placeholder:text-muted focus:border-brand-500 focus:ring-2 focus:ring-brand-500/20;
+  }
+
+  .badge {
+    @apply inline-flex items-center rounded-full border border-line bg-surface/70 px-3 py-1 text-xs font-medium text-muted;
+  }
+}
