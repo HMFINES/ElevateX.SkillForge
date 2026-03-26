@@ -1,5 +1,5 @@
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/v2";
 
 const PUBLIC_BASE_URL = (() => {
   try {
@@ -25,6 +25,28 @@ const getAssetUrl = (assetPath = "") => {
   return `${PUBLIC_BASE_URL}${assetPath.startsWith("/") ? assetPath : `/${assetPath}`}`;
 };
 
+const normalizeResponse = (payload = {}) => {
+  if (payload && typeof payload === "object" && "success" in payload) {
+    if (payload.data && typeof payload.data === "object" && !Array.isArray(payload.data)) {
+      return {
+        ...payload.data,
+        message: payload.message,
+        success: payload.success,
+        error: payload.error,
+      };
+    }
+
+    return {
+      data: payload.data,
+      message: payload.message,
+      success: payload.success,
+      error: payload.error,
+    };
+  }
+
+  return payload;
+};
+
 const request = async (endpoint, options = {}) => {
   const { token, method = "GET", body, headers = {} } = options;
 
@@ -42,16 +64,17 @@ const request = async (endpoint, options = {}) => {
   const data = await response.json().catch(() => ({}));
 
   if (!response.ok) {
-    throw new Error(data.message || "Request failed");
+    throw new Error(data.message || data.error?.message || "Request failed");
   }
 
-  return data;
+  return normalizeResponse(data);
 };
 
 export const api = {
   baseUrl: API_BASE_URL,
   assetUrl: getAssetUrl,
   request,
+  getHealth: () => request("/health"),
   getCourses: (query = "") => request(`/courses${query}`),
   getFeaturedCourses: () => request("/courses/featured"),
   getCourse: (slug, token) => request(`/courses/${slug}`, { token }),

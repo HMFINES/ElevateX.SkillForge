@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import AuthGuard from "@/components/auth/AuthGuard";
 import { useAuth } from "@/context/AuthContext";
 import { api } from "@/lib/api";
@@ -93,7 +93,7 @@ export default function AdminPage() {
   const [editingCourseId, setEditingCourseId] = useState(null);
   const [message, setMessage] = useState("");
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     if (!token) return;
     const [usersResponse, coursesResponse] = await Promise.all([
       api.adminUsers(token),
@@ -101,11 +101,11 @@ export default function AdminPage() {
     ]);
     setUsers(usersResponse.users || []);
     setCourses(coursesResponse.courses || []);
-  };
+  }, [token]);
 
   useEffect(() => {
     loadData().catch((error) => setMessage(error.message));
-  }, [token]);
+  }, [loadData]);
 
   const updateLesson = (index, field, value) => {
     setCourseForm((prev) => ({

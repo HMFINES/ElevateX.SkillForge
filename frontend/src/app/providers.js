@@ -5,7 +5,7 @@ import { AuthProvider } from "@/context/AuthContext";
 
 export default function Providers({ children }) {
   return (
-    <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+    <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
       <AuthProvider>{children}</AuthProvider>
     </ThemeProvider>
   );

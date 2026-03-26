@@ -369,6 +369,49 @@ const AI_TRACKS={
   },
 };
 
+const TRACK_PRACTICE_SPRINTS={
+  frontend:[
+    'Rebuild one real landing page from a screenshot in under 3 hours so layout decisions become instinctive.',
+    'Ship a dashboard that reads a live API and handles loading, empty, and error states cleanly.',
+    'Record a 2-minute walkthrough explaining your UI choices, accessibility work, and deployment setup.',
+  ],
+  ai:[
+    'Take one messy CSV, clean it, and explain every feature before training anything.',
+    'Build a notebook that compares two models and documents metrics, mistakes, and next steps.',
+    'Ship one small AI demo with a clear input/output flow and a short readme on tradeoffs.',
+  ],
+  data:[
+    'Write 15 SQL queries on one dataset until joins, filters, and aggregations feel automatic.',
+    'Build one notebook that cleans data, visualizes trends, and states 3 business insights.',
+    'Turn the analysis into a dashboard or slide story a non-technical person can understand quickly.',
+  ],
+  cloud:[
+    'Deploy a static site and document every step like a runbook another beginner could follow.',
+    'Draw one simple architecture for a real app with storage, auth, logging, and cost notes.',
+    'Practice explaining why you would choose one service over another in plain language.',
+  ],
+  mobile:[
+    'Build a habit tracker or notes app before copying a giant tutorial end to end.',
+    'Add API data, local storage, and one polished onboarding flow to a Flutter app.',
+    'Record a demo video that shows navigation, empty states, and a real user workflow.',
+  ],
+  dsa:[
+    'Solve one pattern at a time: arrays, sliding window, stacks, trees, then graphs.',
+    'After each problem, write the brute-force idea, optimized idea, and time complexity.',
+    'Run 3 timed interview sets and explain your tradeoffs out loud after every solution.',
+  ],
+  cyber:[
+    'Create a checklist for recon, input validation, auth flaws, and logging gaps.',
+    'Reproduce one vulnerability safely in a local lab and document every step clearly.',
+    'Write a short report with impact, fix guidance, and how the issue could be tested again.',
+  ],
+  design:[
+    'Redesign one signup or onboarding flow for clarity, trust, and fewer user mistakes.',
+    'Build a clickable Figma prototype with 3 key screens and one responsive state.',
+    'Package the work as a case study: problem, decisions, iterations, and final outcome.',
+  ],
+};
+
 const JOBS_DATA=[
   {icon:'🏢',role:'Frontend Developer',co:'Razorpay',type:'Remote',sal:'₹12-18 LPA',tags:['React','TypeScript','Next.js'],match:96},
   {icon:'💳',role:'ML Engineer',co:'Paytm',type:'Hybrid',sal:'₹18-30 LPA',tags:['PyTorch','MLOps'],match:91},
@@ -381,12 +424,88 @@ const JOBS_DATA=[
 ];
 
 const TESTI_DATA=[
-  {name:'Arjun Sharma',role:'Frontend Dev @ Razorpay',text:'SkillForge AI helped me crack Razorpay in 3 months. The AI mentor felt like having a personal coach 24/7.',av:'AS',h:220},
-  {name:'Priya Nair',role:'Data Analyst @ CRED',text:'Zero Python to Data Analyst at CRED. Gamification kept me on track every single day. Life-changing.',av:'PN',h:280},
-  {name:'Rohan Gupta',role:'ML Intern @ Google',text:'The Career Blueprint showed me exactly what to do. Now interning at Google. This platform changed my life.',av:'RG',h:190},
-  {name:'Sneha Reddy',role:'Cloud Architect @ TCS',text:'AWS cert prep is the best I\'ve seen. Landed a 20 LPA role after 4 months. Worth every rupee!',av:'SR',h:50},
-  {name:'Amit Kumar',role:'React Dev @ Swiggy',text:'Resume AI review, mock interviews, direct recruiter connects. Got placed in 6 weeks. Insane ROI.',av:'AK',h:10},
-  {name:'Kavya Singh',role:'AI Engineer @ Juspay',text:'The LLM Engineering course is incredible. Got an AI role at 28 LPA. Harshal built exactly what India needs.',av:'KS',h:255},
+  {
+    name:'Arjun Sharma',
+    role:'Frontend Dev @ Razorpay',
+    text:'SkillForge AI helped me crack Razorpay in 3 months. The AI mentor felt like having a personal coach 24/7.',
+    av:'AS',
+    h:220,
+    track:'Frontend',
+    outcome:'Offer in 12 weeks',
+    proof:'2 shipped UI projects',
+  },
+  {
+    name:'Priya Nair',
+    role:'Data Analyst @ CRED',
+    text:'Zero Python to Data Analyst at CRED. Gamification kept me on track every single day. Life-changing.',
+    av:'PN',
+    h:280,
+    track:'Data',
+    outcome:'Role switch in 14 weeks',
+    proof:'SQL case study + dashboard',
+  },
+  {
+    name:'Rohan Gupta',
+    role:'ML Intern @ Google',
+    text:'The Career Blueprint showed me exactly what to do. Now interning at Google. This platform changed my life.',
+    av:'RG',
+    h:190,
+    track:'AI / ML',
+    outcome:'Internship shortlist in 8 weeks',
+    proof:'Notebook + model demo',
+  },
+  {
+    name:'Sneha Reddy',
+    role:'Cloud Architect @ TCS',
+    text:'AWS cert prep is the best I\'ve seen. Landed a 20 LPA role after 4 months. Worth every rupee!',
+    av:'SR',
+    h:50,
+    track:'Cloud',
+    outcome:'20 LPA role in 16 weeks',
+    proof:'AWS prep sprint + notes hub',
+  },
+  {
+    name:'Amit Kumar',
+    role:'React Dev @ Swiggy',
+    text:'Resume AI review, mock interviews, direct recruiter connects. Got placed in 6 weeks. Insane ROI.',
+    av:'AK',
+    h:10,
+    track:'Placement',
+    outcome:'Placement in 6 weeks',
+    proof:'Resume revamp + mock loops',
+  },
+  {
+    name:'Kavya Singh',
+    role:'AI Engineer @ Juspay',
+    text:'The LLM Engineering course is incredible. Got an AI role at 28 LPA. Harshal built exactly what India needs.',
+    av:'KS',
+    h:255,
+    track:'LLM Engineering',
+    outcome:'28 LPA AI role',
+    proof:'LLM capstone + portfolio story',
+  },
+];
+const SOCIAL_PROOF_STATS=[
+  {
+    value:'1.8K+',
+    label:'Blueprint sessions this year',
+    note:'Students used the AI roadmap flow to choose a path and commit to weekly execution.',
+  },
+  {
+    value:'420+',
+    label:'Interview shortlists earned',
+    note:'Momentum built from sharper resumes, stronger projects, and focused prep loops.',
+  },
+  {
+    value:'310+',
+    label:'Portfolio proofs shipped',
+    note:'Capstones, dashboards, case studies, and demos published with recruiter-facing polish.',
+  },
+  {
+    value:'4.9/5',
+    label:'Average learner rating',
+    note:'The strongest feedback theme is clarity: what to learn, what to build, and what to show.',
+  },
 ];
 
 // ───── ALL PLATFORMS (40+) ─────
@@ -486,6 +605,115 @@ const ACCESS_DEFAULT_STATE={
   paidPlan:'',
   paidAt:'',
 };
+const TEMPORARY_FREE_MODE=true;
+const GAMIFICATION_STORAGE_KEY='skillforge-gamification-state-v1';
+const GAMIFICATION_DEFAULT_STATE={
+  xp:0,
+  streak:0,
+  longestStreak:0,
+  lastActiveDate:'',
+  startedCourses:[],
+  lessonTopics:[],
+  quizWins:[],
+  mentorDays:[],
+  planDays:[],
+  blueprintDays:[],
+  badges:[],
+  questRewards:{},
+  activityLog:[],
+};
+const LEVEL_TITLES=[
+  'Curious Starter',
+  'Momentum Builder',
+  'Proof Crafter',
+  'Sprint Runner',
+  'System Thinker',
+  'Project Pilot',
+  'Pro Learner',
+  'Interview Charger',
+  'Offer Hunter',
+  'Career Architect',
+  'SkillForge Legend',
+];
+const GAMIFICATION_BADGES=[
+  {
+    id:'first-course',
+    icon:'🚀',
+    title:'Starter Spark',
+    desc:'Open your first learning path and begin building proof.',
+    check:state=>state.startedCourses.length>=1,
+  },
+  {
+    id:'pathfinder',
+    icon:'🧭',
+    title:'Pathfinder',
+    desc:'Start 3 different learning paths.',
+    check:state=>state.startedCourses.length>=3,
+  },
+  {
+    id:'quiz-clutch',
+    icon:'🧠',
+    title:'Quiz Clutch',
+    desc:'Get 3 AI Tutor quizzes right.',
+    check:state=>state.quizWins.length>=3,
+  },
+  {
+    id:'streak-7',
+    icon:'🔥',
+    title:'7-Day Flame',
+    desc:'Stay active for 7 days in a row.',
+    check:state=>Math.max(state.streak,state.longestStreak)>=7,
+  },
+  {
+    id:'blueprint-builder',
+    icon:'🗺️',
+    title:'Blueprint Builder',
+    desc:'Generate your first AI career blueprint.',
+    check:state=>state.blueprintDays.length>=1,
+  },
+  {
+    id:'system-reset',
+    icon:'📅',
+    title:'System Reset',
+    desc:'Refresh your learning plan twice.',
+    check:state=>state.planDays.length>=2,
+  },
+];
+const DAILY_QUESTS=[
+  {
+    id:'mentor-checkin',
+    icon:'💬',
+    title:'Mentor Check-In',
+    desc:'Ask the AI Mentor one focused question today.',
+    rewardXp:18,
+    target:1,
+    href:'chat',
+    cta:'Open mentor',
+    progress:(state,dateKey)=>countActionsForDate(state,dateKey,['mentor-checkin']),
+  },
+  {
+    id:'skill-sprint',
+    icon:'⚡',
+    title:'Skill Sprint',
+    desc:'Start a course or generate tutor lessons twice today.',
+    rewardXp:30,
+    target:2,
+    href:'tutor',
+    cta:'Study now',
+    progress:(state,dateKey)=>countActionsForDate(state,dateKey,['course-start','lesson-view']),
+  },
+  {
+    id:'career-map',
+    icon:'🗺️',
+    title:'Career Map',
+    desc:'Refresh your learning plan or generate a blueprint today.',
+    rewardXp:35,
+    target:1,
+    href:'blueprint',
+    cta:'Plan next',
+    progress:(state,dateKey)=>countActionsForDate(state,dateKey,['plan-refresh','blueprint-run']),
+  },
+];
 let authMode='signup';
 let googleAuthInitialized=false;
 
@@ -574,6 +802,101 @@ const LESSON_LIBRARY=[
     options:['It turns JavaScript into Python','It guarantees consistent environments','It removes internet latency','It replaces version control'],
     answer:1,
   },
+  {
+    match:['git github','git','github workflow'],
+    lesson:'<strong>Git</strong> tracks changes locally, while <strong>GitHub</strong> gives you a shared remote for collaboration, code review, and portfolio proof. A strong beginner workflow is simple: create a branch, commit focused changes, push, and open a pull request with a clear summary.<br><br>Recruiters and teammates care less about fancy commands and more about whether your history is understandable. Small commits and useful messages make your work look professional.',
+    question:'What makes a Git workflow easier for teammates to review?',
+    options:['One giant commit at the end','Clear small commits with useful messages','Deleting commit history often','Working only on main'],
+    answer:1,
+  },
+  {
+    match:['jwt auth','jwt','authentication flow','auth flow'],
+    lesson:'<strong>JWT auth</strong> usually works like this: a user logs in, the server verifies credentials, then returns a token the client sends on later requests. The token proves identity, but your app still needs expiration, secure storage, and server-side authorization checks.<br><br>The important idea is that login is only one step. Real auth also includes protecting routes, refreshing sessions when needed, and making sure users can only access their own data.',
+    question:'What should a backend still check even when a valid JWT is sent?',
+    options:['Only the button color','Authorization for that user and resource','If the frontend looks modern','Whether the browser is Chrome'],
+    answer:1,
+  },
+  {
+    match:['pandas','data cleaning','pandas cleaning'],
+    lesson:'<strong>Pandas</strong> becomes powerful when you use it to inspect, clean, and reshape messy data. Real work is rarely glamorous: fix null values, standardize categories, parse dates correctly, and create columns that make later analysis easier.<br><br>A good data cleaner always checks assumptions after every major step. Count missing values, inspect duplicates, and verify that row counts still make sense before moving on.',
+    question:'Which habit is most important during data cleaning?',
+    options:['Changing values without checking','Verifying assumptions after each major step','Dropping every null row immediately','Only using charts'],
+    answer:1,
+  },
+  {
+    match:['prompt engineering','prompt design','prompts'],
+    lesson:'<strong>Prompt engineering</strong> for real apps is less about clever wording and more about reliability. Good prompts define the role, the task, the format, the constraints, and one or two examples when needed.<br><br>The fastest way to improve prompts is to test them against failure cases. Try ambiguous inputs, missing context, and edge cases, then tighten the instructions until the output becomes stable enough for product use.',
+    question:'What improves prompt quality fastest in real apps?',
+    options:['Adding random emojis','Testing against failure cases and edge inputs','Using the longest prompt possible','Avoiding examples completely'],
+    answer:1,
+  },
+];
+
+const LESSON_PRACTICE_LIBRARY=[
+  {
+    match:['promise','async','await'],
+    practice:'**Build it now**\n\nFetch data from a public API and show three UI states: loading, success, and error. Then refactor the code from `.then()` into `async/await`.',
+  },
+  {
+    match:['react hooks','usestate','useeffect','react'],
+    practice:'**Build it now**\n\nCreate a tiny task tracker with `useState` for tasks and `useEffect` for localStorage. Add one filter and one derived count.',
+  },
+  {
+    match:['linear regression','machine learning'],
+    practice:'**Build it now**\n\nUse one small dataset, plot the feature against the target, train a baseline regression model, and explain where the predictions fail.',
+  },
+  {
+    match:['python data structures','lists','dicts','sets','python ds'],
+    practice:'**Build it now**\n\nTake a messy list of tags, remove duplicates with a set, count occurrences with a dictionary, and store the final ordered result in a list.',
+  },
+  {
+    match:['sql joins','join'],
+    practice:'**Build it now**\n\nCreate two tables like `customers` and `orders`, then write an `INNER JOIN` and a `LEFT JOIN` to find who has never purchased.',
+  },
+  {
+    match:['rest apis','http methods','http'],
+    practice:'**Build it now**\n\nDesign a tiny tasks API with routes for list, create, update, and delete. Write the expected request body and response for each route.',
+  },
+  {
+    match:['css flexbox','grid layout','css layout','flexbox','grid'],
+    practice:'**Build it now**\n\nRecreate a pricing section: use Grid for the card layout and Flexbox inside each card for spacing, alignment, and buttons.',
+  },
+  {
+    match:['dynamic programming','dynamic prog'],
+    practice:'**Build it now**\n\nSolve `climbing stairs` with plain recursion first, then memoization, then tabulation, and compare the difference in repeated work.',
+  },
+  {
+    match:['system design'],
+    practice:'**Build it now**\n\nPick one feature like URL shortening or file upload. Write requirements first, then sketch components, data flow, bottlenecks, and one scaling tradeoff.',
+  },
+  {
+    match:['big o','time complexity'],
+    practice:'**Build it now**\n\nCode two ways to detect duplicates in an array: nested loops and a set. Time both on larger inputs and explain the tradeoff.',
+  },
+  {
+    match:['typescript'],
+    practice:'**Build it now**\n\nConvert one React component to TypeScript by typing props, API data, and one event handler without over-typing everything.',
+  },
+  {
+    match:['docker','containerization'],
+    practice:'**Build it now**\n\nContainerize one small app, run it locally with environment variables, and write the exact commands someone else would use to start it.',
+  },
+  {
+    match:['git github','git','github workflow'],
+    practice:'**Build it now**\n\nCreate a feature branch, make two clean commits, push them, and write a pull request summary that explains what changed and why.',
+  },
+  {
+    match:['jwt auth','jwt','authentication flow','auth flow'],
+    practice:'**Build it now**\n\nSketch the full auth flow from login form to protected API route. Include where the token is issued, stored, sent, and verified.',
+  },
+  {
+    match:['pandas','data cleaning','pandas cleaning'],
+    practice:'**Build it now**\n\nTake a messy CSV, inspect nulls and duplicates, standardize one text column, parse one date column, and show a before/after summary.',
+  },
+  {
+    match:['prompt engineering','prompt design','prompts'],
+    practice:'**Build it now**\n\nWrite one prompt for structured JSON output, then test it with 5 messy user inputs and tighten the instructions until the format stays stable.',
+  },
 ];
 
 const BLUEPRINT_PROFILES={
@@ -582,24 +905,32 @@ const BLUEPRINT_PROFILES={
     skills:['JavaScript','React','Node.js','Git','SQL'],
     courses:['Responsive Web Design Certification','CS50’s Web Programming with Python and JavaScript','CS50x: Introduction to Computer Science'],
     roles:['Junior Developer','Frontend Developer','Software Engineer','Full Stack Developer'],
+    projects:['Responsive landing page for a real brand','CRUD dashboard with auth and API data','Portfolio site with case-study write-ups'],
+    firstMoves:['Pick one role and ignore the rest for 30 days','Rebuild one good homepage from scratch','Ship daily GitHub commits for your first week'],
   },
   'Data / Analytics':{
     paths:['Data Analyst','Business Intelligence Analyst','Analytics Engineer'],
     skills:['Python','SQL','Power BI','Excel','Statistics'],
     courses:['Python for Data Science - Course for Beginners','Intro to SQL','Machine Learning Crash Course'],
     roles:['Data Analyst','BI Analyst','Reporting Analyst','Analytics Associate'],
+    projects:['SQL case study on a sales or support dataset','Python notebook with cleaning and visualization','Dashboard story with 3 business insights'],
+    firstMoves:['Choose one public dataset with messy columns','Practice SQL every day until joins feel natural','Turn one analysis into a short presentation story'],
   },
   'AI / Machine Learning':{
     paths:['ML Engineer','AI Engineer','Data Scientist'],
     skills:['Python','Machine Learning','Deep Learning','MLOps','SQL'],
     courses:['Machine Learning Crash Course','Machine Learning for Everybody','CS50x: Introduction to Computer Science'],
     roles:['ML Engineer','AI Engineer','Data Scientist','Applied AI Developer'],
+    projects:['EDA notebook with clear feature explanations','Classifier or recommender with evaluation metrics','Small AI demo with prompt, output, and limitations'],
+    firstMoves:['Refresh Python and data handling basics','Train one tiny baseline model before chasing deep learning','Write down model mistakes instead of hiding them'],
   },
   'Design / Product':{
     paths:['UI/UX Designer','Product Designer','Frontend Product Engineer'],
     skills:['Figma','Design Systems','User Research','Wireframing','Frontend Basics'],
     courses:['Google UX Design Professional Certificate','Responsive Web Design Certification','CS50’s Web Programming with Python and JavaScript'],
     roles:['UI/UX Designer','Product Designer','Design Intern','Frontend Designer'],
+    projects:['Redesign one signup or onboarding flow','Clickable Figma prototype for a real use case','Case study showing problem, decisions, and outcomes'],
+    firstMoves:['Pick one weak app flow and audit it closely','Create low-fidelity wireframes before polished screens','Write down the user problem before opening Figma'],
   },
 };
 
@@ -727,15 +1058,458 @@ function formatRichText(value=''){
 function formatStatValue(value,suffix=''){
   return value>=1000?`${Math.round(value/1000)}K${suffix}`:`${value}${suffix}`;
 }
+function slugify(value=''){
+  return String(value).toLowerCase().trim().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');
+}
+function getTodayKey(date=new Date()){
+  const year=date.getFullYear();
+  const month=String(date.getMonth()+1).padStart(2,'0');
+  const day=String(date.getDate()).padStart(2,'0');
+  return `${year}-${month}-${day}`;
+}
+function parseDateKey(dateKey=''){
+  if(!/^\d{4}-\d{2}-\d{2}$/.test(dateKey))return null;
+  const [year,month,day]=dateKey.split('-').map(Number);
+  return new Date(year,month-1,day);
+}
+function getDayDiff(fromKey='',toKey=''){
+  const from=parseDateKey(fromKey);
+  const to=parseDateKey(toKey);
+  if(!from||!to)return 0;
+  const msPerDay=24*60*60*1000;
+  return Math.round((to.setHours(0,0,0,0)-from.setHours(0,0,0,0))/msPerDay);
+}
+function normalizeStringList(value){
+  return [...new Set((Array.isArray(value)?value:[]).map(item=>String(item||'').trim()).filter(Boolean))];
+}
+function normalizeQuestRewards(value){
+  const raw=value&&typeof value==='object'?value:{};
+  return Object.fromEntries(Object.entries(raw).map(([dateKey,list])=>[String(dateKey),normalizeStringList(list)]));
+}
+function normalizeActivityLog(value){
+  return (Array.isArray(value)?value:[])
+    .map(entry=>({
+      date:String(entry?.date||'').trim(),
+      action:String(entry?.action||'').trim(),
+      key:String(entry?.key||'').trim(),
+      label:String(entry?.label||'').trim(),
+      xp:Math.max(0,Number(entry?.xp)||0),
+    }))
+    .filter(entry=>entry.date&&entry.action)
+    .slice(0,80);
+}
+function getGamificationState(){
+  const state=readJsonStorage(localStorage,GAMIFICATION_STORAGE_KEY,GAMIFICATION_DEFAULT_STATE);
+  const normalized={...GAMIFICATION_DEFAULT_STATE,...(state&&typeof state==='object'?state:{})};
+  return {
+    ...normalized,
+    xp:Math.max(0,Number(normalized.xp)||0),
+    streak:Math.max(0,Number(normalized.streak)||0),
+    longestStreak:Math.max(0,Number(normalized.longestStreak)||0),
+    lastActiveDate:String(normalized.lastActiveDate||'').trim(),
+    startedCourses:normalizeStringList(normalized.startedCourses),
+    lessonTopics:normalizeStringList(normalized.lessonTopics),
+    quizWins:normalizeStringList(normalized.quizWins),
+    mentorDays:normalizeStringList(normalized.mentorDays),
+    planDays:normalizeStringList(normalized.planDays),
+    blueprintDays:normalizeStringList(normalized.blueprintDays),
+    badges:normalizeStringList(normalized.badges),
+    questRewards:normalizeQuestRewards(normalized.questRewards),
+    activityLog:normalizeActivityLog(normalized.activityLog),
+  };
+}
+function saveGamificationState(state){
+  writeJsonStorage(localStorage,GAMIFICATION_STORAGE_KEY,{...GAMIFICATION_DEFAULT_STATE,...state});
+}
+function appendGamificationActivity(state,{action,key='',label='',xp=0,date=getTodayKey()}){
+  state.activityLog=[
+    {
+      date,
+      action,
+      key,
+      label,
+      xp:Math.max(0,Number(xp)||0),
+    },
+    ...state.activityLog,
+  ].slice(0,80);
+  return state;
+}
+function syncGamificationStreak(state,dateKey=getTodayKey()){
+  const next={...state};
+  if(!next.lastActiveDate){
+    next.lastActiveDate=dateKey;
+    next.streak=1;
+    next.longestStreak=Math.max(next.longestStreak,1);
+    return {state:next,changed:true,delta:'start'};
+  }
+  const diff=getDayDiff(next.lastActiveDate,dateKey);
+  if(diff<=0)return {state:next,changed:false,delta:'same'};
+  next.lastActiveDate=dateKey;
+  next.streak=diff===1?next.streak+1:1;
+  next.longestStreak=Math.max(next.longestStreak,next.streak);
+  return {state:next,changed:true,delta:diff===1?'extend':'reset'};
+}
+function countActionsForDate(state,dateKey=getTodayKey(),actions=[]){
+  const lookup=new Set(actions);
+  return state.activityLog.filter(entry=>entry.date===dateKey&&lookup.has(entry.action)).length;
+}
+function getQuestClearCount(state){
+  return Object.values(state.questRewards||{}).reduce((total,list)=>total+normalizeStringList(list).length,0);
+}
+function getWeeklyXp(state){
+  const today=getTodayKey();
+  return state.activityLog.reduce((total,entry)=>{
+    const diff=getDayDiff(entry.date,today);
+    return diff>=0&&diff<7?total+(Number(entry.xp)||0):total;
+  },0);
+}
+function getLevelMeta(totalXp=0){
+  let level=1;
+  let remaining=Math.max(0,Number(totalXp)||0);
+  let required=180;
+  while(remaining>=required){
+    remaining-=required;
+    level++;
+    required=Math.round(required*1.18);
+  }
+  const title=LEVEL_TITLES[Math.min(level-1,LEVEL_TITLES.length-1)];
+  const progressPct=Math.max(0,Math.min(100,Math.round((remaining/required)*100)));
+  return {
+    level,
+    title,
+    current:remaining,
+    required,
+    progressPct,
+  };
+}
+function syncBadgeUnlocks(state){
+  const unlocked=new Set(state.badges);
+  const newBadges=[];
+  GAMIFICATION_BADGES.forEach(badge=>{
+    if(badge.check(state)&&!unlocked.has(badge.id)){
+      unlocked.add(badge.id);
+      newBadges.push(badge);
+    }
+  });
+  state.badges=[...unlocked];
+  return {state,newBadges};
+}
+function applyDailyQuestRewards(state,dateKey=getTodayKey()){
+  const rewardedToday=new Set(state.questRewards[dateKey]||[]);
+  const newRewards=[];
+  DAILY_QUESTS.forEach(quest=>{
+    const progress=Math.min(quest.target,quest.progress(state,dateKey));
+    if(progress>=quest.target&&!rewardedToday.has(quest.id)){
+      rewardedToday.add(quest.id);
+      state.xp+=quest.rewardXp;
+      appendGamificationActivity(state,{
+        action:`quest-${quest.id}`,
+        key:quest.id,
+        label:`Quest cleared: ${quest.title}`,
+        xp:quest.rewardXp,
+        date:dateKey,
+      });
+      newRewards.push(quest);
+    }
+  });
+  if(newRewards.length){
+    state.questRewards={
+      ...state.questRewards,
+      [dateKey]:[...rewardedToday],
+    };
+  }
+  return {state,newRewards};
+}
+function ensureToastStack(){
+  let stack=document.querySelector('.xp-toast-stack');
+  if(stack)return stack;
+  stack=document.createElement('div');
+  stack.className='xp-toast-stack';
+  document.body.appendChild(stack);
+  return stack;
+}
+function showGamificationToast({title='',body='',kind='xp'}){
+  const stack=ensureToastStack();
+  const toast=document.createElement('div');
+  toast.className=`xp-toast${kind==='quest'?' is-quest':kind==='badge'?' is-badge':''}`;
+  toast.innerHTML=`<strong>${escapeHtml(title)}</strong><span>${escapeHtml(body)}</span>`;
+  stack.appendChild(toast);
+  setTimeout(()=>toast.remove(),3800);
+}
+function queueGamificationToasts(items=[]){
+  items.filter(Boolean).forEach((item,index)=>{
+    setTimeout(()=>showGamificationToast(item),index*220);
+  });
+}
+function renderGamificationUi(state=getGamificationState()){
+  const levelMeta=getLevelMeta(state.xp);
+  const dayLabel=new Intl.DateTimeFormat('en-US',{weekday:'long'}).format(new Date());
+  const welcomeMeta=document.getElementById('dashboardWelcomeMeta');
+  if(welcomeMeta){
+    welcomeMeta.innerHTML=`<span id="dashboardDay">${escapeHtml(dayLabel)}</span> · ${state.streak}-day streak active · Level ${levelMeta.level} ${escapeHtml(levelMeta.title)}`;
+  }
+  const streakBadge=document.getElementById('dashboardStreakBadge');
+  if(streakBadge)streakBadge.textContent=`🔥 ${state.streak} Day Streak`;
+  const xpLevel=document.getElementById('dashboardXpLevel');
+  if(xpLevel)xpLevel.textContent=`Level ${levelMeta.level} — ${levelMeta.title} 🏅`;
+  const xpPoints=document.getElementById('dashboardXpPoints');
+  if(xpPoints)xpPoints.textContent=`${levelMeta.current} / ${levelMeta.required} XP`;
+  const xpFill=document.getElementById('dashboardXpFill');
+  if(xpFill)xpFill.style.width=`${levelMeta.progressPct}%`;
+  const xpFrom=document.getElementById('dashboardXpFrom');
+  if(xpFrom)xpFrom.textContent=`Level ${levelMeta.level}`;
+  const xpPct=document.getElementById('dashboardXpPct');
+  if(xpPct)xpPct.textContent=`${levelMeta.progressPct}% complete`;
+  const xpTo=document.getElementById('dashboardXpTo');
+  if(xpTo)xpTo.textContent=`Level ${levelMeta.level+1}`;
+  const activeCourses=document.getElementById('dashboardActiveCourses');
+  if(activeCourses)activeCourses.textContent=String(state.startedCourses.length);
+  const questsDone=document.getElementById('dashboardQuestsDone');
+  if(questsDone)questsDone.textContent=String(getQuestClearCount(state));
+  const badgesEarned=document.getElementById('dashboardBadgesEarned');
+  if(badgesEarned)badgesEarned.textContent=String(state.badges.length);
+  const weeklyXp=document.getElementById('dashboardWeeklyXp');
+  if(weeklyXp)weeklyXp.textContent=formatStatValue(getWeeklyXp(state));
+  const todayKey=getTodayKey();
+  const questGrid=document.getElementById('questGrid');
+  if(questGrid){
+    questGrid.innerHTML=DAILY_QUESTS.map(quest=>{
+      const progress=Math.min(quest.target,quest.progress(state,todayKey));
+      const pct=progress===0?0:Math.max(10,Math.round((progress/quest.target)*100));
+      const isDone=progress>=quest.target;
+      return `<article class="quest-card">
+        <div class="quest-top">
+          <div class="quest-icon">${quest.icon}</div>
+          <div class="quest-status ${isDone?'done':''}">${isDone?'Completed':`${progress}/${quest.target}`}</div>
+        </div>
+        <div class="quest-title">${quest.title}</div>
+        <div class="quest-copy">${quest.desc}</div>
+        <div class="quest-progress"><div class="quest-progress-fill" style="width:${pct}%"></div></div>
+        <div class="quest-meta">
+          <span>Reward +${quest.rewardXp} XP</span>
+          <a href="#" onclick="go('${quest.href}');return false" class="quest-link">${quest.cta} →</a>
+        </div>
+      </article>`;
+    }).join('');
+  }
+  const badgeGrid=document.getElementById('badgeGrid');
+  if(badgeGrid){
+    const unlocked=new Set(state.badges);
+    badgeGrid.innerHTML=GAMIFICATION_BADGES.map(badge=>{
+      const isUnlocked=unlocked.has(badge.id);
+      return `<article class="badge-card ${isUnlocked?'unlocked':'locked'}">
+        <div class="badge-mark">${isUnlocked?badge.icon:'🔒'}</div>
+        <div>
+          <div class="badge-title">${badge.title}</div>
+          <div class="badge-desc">${badge.desc}</div>
+          <div class="badge-state">${isUnlocked?'Unlocked':'Locked'}</div>
+        </div>
+      </article>`;
+    }).join('');
+  }
+}
+function commitGamificationState(state,{baseToast=null,notify=true}={}){
+  const dateKey=getTodayKey();
+  const streakResult=syncGamificationStreak(state,dateKey);
+  state=streakResult.state;
+  const questResult=applyDailyQuestRewards(state,dateKey);
+  state=questResult.state;
+  const badgeResult=syncBadgeUnlocks(state);
+  state=badgeResult.state;
+  saveGamificationState(state);
+  renderGamificationUi(state);
+  if(notify){
+    const toasts=[];
+    if(baseToast)toasts.push(baseToast);
+    if(streakResult.changed){
+      toasts.push({
+        title:streakResult.delta==='extend'?`Streak ${state.streak} Days`:streakResult.delta==='reset'?'Streak Restarted':'Daily Check-In',
+        body:streakResult.delta==='extend'?'Consistency is compounding fast.':streakResult.delta==='reset'?'New streak started. Keep it alive tomorrow.':'Momentum started for today.',
+        kind:'badge',
+      });
+    }
+    questResult.newRewards.forEach(quest=>{
+      toasts.push({
+        title:`Quest Cleared · +${quest.rewardXp} XP`,
+        body:quest.title,
+        kind:'quest',
+      });
+    });
+    badgeResult.newBadges.forEach(badge=>{
+      toasts.push({
+        title:`Badge Unlocked · ${badge.title}`,
+        body:badge.desc,
+        kind:'badge',
+      });
+    });
+    queueGamificationToasts(toasts);
+  }
+  return state;
+}
+function syncGamificationForDay({notify=false}={}){
+  let state=getGamificationState();
+  const streakResult=syncGamificationStreak(state);
+  state=streakResult.state;
+  const badgeResult=syncBadgeUnlocks(state);
+  state=badgeResult.state;
+  if(streakResult.changed||badgeResult.newBadges.length)saveGamificationState(state);
+  renderGamificationUi(state);
+  if(notify&&streakResult.changed){
+    queueGamificationToasts([{
+      title:streakResult.delta==='extend'?`Streak ${state.streak} Days`:'Daily Check-In',
+      body:streakResult.delta==='extend'?'You showed up again today.':'Your learning streak starts today.',
+      kind:'badge',
+    }]);
+  }
+  return state;
+}
+function trackCourseStart(course){
+  if(!course?.id)return;
+  const state=getGamificationState();
+  if(state.startedCourses.includes(course.id))return;
+  state.startedCourses=[course.id,...state.startedCourses];
+  state.xp+=45;
+  appendGamificationActivity(state,{
+    action:'course-start',
+    key:course.id,
+    label:`Started ${course.title}`,
+    xp:45,
+  });
+  commitGamificationState(state,{
+    baseToast:{
+      title:'+45 XP',
+      body:`Started ${course.title}`,
+      kind:'xp',
+    },
+  });
+}
+function trackMentorCheckIn(){
+  const todayKey=getTodayKey();
+  const state=getGamificationState();
+  if(state.mentorDays.includes(todayKey))return;
+  state.mentorDays=[todayKey,...state.mentorDays].slice(0,45);
+  state.xp+=12;
+  appendGamificationActivity(state,{
+    action:'mentor-checkin',
+    key:todayKey,
+    label:'Checked in with the AI Mentor',
+    xp:12,
+  });
+  commitGamificationState(state,{
+    baseToast:{
+      title:'+12 XP',
+      body:'Mentor check-in logged',
+      kind:'xp',
+    },
+  });
+}
+function trackTutorLesson(topic=''){
+  const todayKey=getTodayKey();
+  const lessonKey=slugify(topic);
+  if(!lessonKey)return;
+  const state=getGamificationState();
+  const dailyKey=`${todayKey}:${lessonKey}`;
+  if(state.activityLog.some(entry=>entry.action==='lesson-view'&&entry.key===dailyKey))return;
+  if(!state.lessonTopics.includes(lessonKey))state.lessonTopics=[lessonKey,...state.lessonTopics];
+  state.xp+=18;
+  appendGamificationActivity(state,{
+    action:'lesson-view',
+    key:dailyKey,
+    label:`Generated lesson: ${topic}`,
+    xp:18,
+  });
+  commitGamificationState(state,{
+    baseToast:{
+      title:'+18 XP',
+      body:`Lesson generated for ${topic}`,
+      kind:'xp',
+    },
+  });
+}
+function trackTutorQuizWin(topic=''){
+  const quizKey=slugify(topic);
+  if(!quizKey)return;
+  const state=getGamificationState();
+  if(state.quizWins.includes(quizKey))return;
+  state.quizWins=[quizKey,...state.quizWins];
+  state.xp+=28;
+  appendGamificationActivity(state,{
+    action:'quiz-win',
+    key:quizKey,
+    label:`Quiz cleared: ${topic}`,
+    xp:28,
+  });
+  commitGamificationState(state,{
+    baseToast:{
+      title:'+28 XP',
+      body:`Quiz cleared for ${topic}`,
+      kind:'xp',
+    },
+  });
+}
+function trackPlanRefresh(){
+  const todayKey=getTodayKey();
+  const state=getGamificationState();
+  if(state.planDays.includes(todayKey))return;
+  state.planDays=[todayKey,...state.planDays].slice(0,45);
+  state.xp+=26;
+  appendGamificationActivity(state,{
+    action:'plan-refresh',
+    key:todayKey,
+    label:'Refreshed AI learning plan',
+    xp:26,
+  });
+  commitGamificationState(state,{
+    baseToast:{
+      title:'+26 XP',
+      body:'Learning plan refreshed',
+      kind:'xp',
+    },
+  });
+}
+function trackBlueprintRun(){
+  const todayKey=getTodayKey();
+  const state=getGamificationState();
+  if(state.blueprintDays.includes(todayKey))return;
+  state.blueprintDays=[todayKey,...state.blueprintDays].slice(0,45);
+  const xpGain=state.blueprintDays.length===1?60:36;
+  state.xp+=xpGain;
+  appendGamificationActivity(state,{
+    action:'blueprint-run',
+    key:todayKey,
+    label:'Generated AI career blueprint',
+    xp:xpGain,
+  });
+  commitGamificationState(state,{
+    baseToast:{
+      title:`+${xpGain} XP`,
+      body:'Career blueprint generated',
+      kind:'xp',
+    },
+  });
+}
 function getAccessState(){
   const state=readJsonStorage(localStorage,ACCESS_STORAGE_KEY,ACCESS_DEFAULT_STATE);
-  return {...ACCESS_DEFAULT_STATE,...(state&&typeof state==='object'?state:{})};
+  const normalized={...ACCESS_DEFAULT_STATE,...(state&&typeof state==='object'?state:{})};
+  if(['AI Mentor','Career Blueprint'].includes(normalized.trialFeature)&&!normalized.paidPlan){
+    const migratedState={
+      ...normalized,
+      trialUsedAt:'',
+      trialFeature:'',
+    };
+    saveAccessState(migratedState);
+    return migratedState;
+  }
+  return normalized;
 }
 function saveAccessState(state){
   writeJsonStorage(localStorage,ACCESS_STORAGE_KEY,{...ACCESS_DEFAULT_STATE,...state});
 }
 function getPaidPlanLabel(planName=''){
   return /premium/i.test(planName)?'Premium':'Pro';
+}
+function isTemporaryFreeMode(){
+  return TEMPORARY_FREE_MODE===true;
 }
 function getAccessStatus(){
   const state=getAccessState();
@@ -759,6 +1533,14 @@ function openCourse(url=''){
   window.open(url,'_blank','noopener');
 }
 function getCourseAccessUi(course){
+  if(isTemporaryFreeMode()){
+    return {
+      price:'Free for now',
+      priceClass:'is-free',
+      note:'Temporary site-wide free access',
+      cta:'Open Free',
+    };
+  }
   const access=getAccessStatus();
   if(access.hasPaid){
     return {
@@ -784,6 +1566,9 @@ function getCourseAccessUi(course){
   };
 }
 function getPlatformAccessUi(){
+  if(isTemporaryFreeMode()){
+    return {badge:'pb-free',label:'FREE NOW',note:'No unlock required'};
+  }
   const access=getAccessStatus();
   if(access.hasPaid){
     return {badge:'pb-live',label:'UNLOCKED',note:'Included in your paid plan'};
@@ -794,6 +1579,10 @@ function getPlatformAccessUi(){
   return {badge:'pb-new',label:'PAID',note:'Upgrade to continue'};
 }
 function requestPremiumFeatureAccess(featureName,onAllow,{planName='Pro Plan',amount=499,announceTrial=true}={}){
+  if(isTemporaryFreeMode()){
+    if(typeof onAllow==='function')onAllow();
+    return true;
+  }
   const state=getAccessState();
   if(state.paidPlan){
     if(typeof onAllow==='function')onAllow();
@@ -825,7 +1614,10 @@ function requestPremiumFeatureAccess(featureName,onAllow,{planName='Pro Plan',am
 function unlockCourse(courseId=''){
   const course=COURSE_INDEX[courseId];
   if(!course)return;
-  requestPremiumFeatureAccess(course.title,()=>openCourse(course.url));
+  requestPremiumFeatureAccess(course.title,()=>{
+    trackCourseStart(course);
+    openCourse(course.url);
+  });
 }
 function renderAiTrackPills(){
   const el=document.getElementById('aiTrackPills');
@@ -834,9 +1626,11 @@ function renderAiTrackPills(){
 }
 function renderAiTrack(key){
   const track=AI_TRACKS[key]||AI_TRACKS.frontend;
-  activeTrackKey=AI_TRACKS[key]?key:'frontend';
+  const trackKey=AI_TRACKS[key]?key:'frontend';
+  activeTrackKey=trackKey;
   const el=document.getElementById('aiTrackOut');
   if(!el)return;
+  const sprints=TRACK_PRACTICE_SPRINTS[trackKey]||[];
   const courses=track.courseIds.map(id=>COURSE_INDEX[id]).filter(Boolean);
   el.innerHTML=`
     <div class="ai-track-top">
@@ -859,6 +1653,10 @@ function renderAiTrack(key){
       <div class="ai-track-panel">
         <h4>What you will ship</h4>
         <ul class="ai-track-list">${track.deliverables.map(item=>`<li>${escapeHtml(item)}</li>`).join('')}</ul>
+      </div>
+      <div class="ai-track-panel ai-track-panel-wide">
+        <h4>Hands-on sprints</h4>
+        <ul class="ai-track-list">${sprints.map(item=>`<li>${escapeHtml(item)}</li>`).join('')}</ul>
       </div>
       <div class="ai-track-panel ai-track-panel-wide">
         <h4>AI-generated roadmap</h4>
@@ -893,6 +1691,9 @@ function openAiTrack(key,shouldScroll=true){
 function setRuntimeText(){
   const yearEl=document.getElementById('yearNow');
   if(yearEl)yearEl.textContent=CURRENT_YEAR;
+  document.querySelectorAll('[data-current-year]').forEach(el=>{
+    el.textContent=CURRENT_YEAR;
+  });
   const dayEl=document.getElementById('dashboardDay');
   if(dayEl)dayEl.textContent=new Intl.DateTimeFormat('en-US',{weekday:'long'}).format(new Date());
 }
@@ -914,6 +1715,7 @@ function syncLaunchUi(){
   const paymentMode=getPaymentMode();
   const paymentReady=paymentMode==='live';
   const access=getAccessStatus();
+  const freeMode=isTemporaryFreeMode();
   const githubReady=hasConfiguredValue(SOCIAL_AUTH_CONFIG.githubClientId)&&hasConfiguredValue(SOCIAL_AUTH_CONFIG.githubExchangeUrl);
   const authChip=document.querySelector('.auth-mini-chip');
   if(authChip){
@@ -948,47 +1750,191 @@ function syncLaunchUi(){
     githubBtn.title=githubReady?'Continue with GitHub':'GitHub login is coming soon';
   }
   const pricingNote=document.querySelector('.pricing-note');
+  const pricingHeading=document.querySelector('.pricing-head .sec-h');
+  const pricingProof=document.querySelectorAll('.pricing-proof span');
+  const pricingPlans=document.querySelectorAll('.pricing-grid .plan');
+  const pricingPlanData=freeMode
+    ? [
+      {
+        name:'Temporary Free Mode',
+        price:'FREE<sub>now</sub>',
+        tagline:'All features are open until you say otherwise',
+        feats:[
+          {text:'All courses unlocked',on:true},
+          {text:'All AI tools unlocked',on:true},
+          {text:'All platform links open',on:true},
+          {text:'Community',on:true},
+          {text:'Certificates',on:true},
+          {text:'Job Portal',on:true},
+        ],
+      },
+      {
+        name:'Pro',
+        price:'FREE<sub>now</sub>',
+        tagline:'Courses, tools, job prep, and support are all unlocked',
+        feats:[
+          {text:'AI-built Study Paths',on:true},
+          {text:'Guided Project Roadmaps',on:true},
+          {text:'Blockchain Certs',on:true},
+          {text:'AI Resume Builder',on:true},
+          {text:'Full Job Portal',on:true},
+          {text:'AI Study Tutor',on:true},
+        ],
+      },
+      {
+        name:'Premium',
+        price:'FREE<sub>now</sub>',
+        tagline:'No payment required while temporary free mode is active',
+        feats:[
+          {text:'Everything in Pro',on:true},
+          {text:'AI Tools Suite',on:true},
+          {text:'1-on-1 Mentorship',on:true},
+          {text:'Mock Interviews',on:true},
+          {text:'Placement Guarantee',on:true},
+          {text:'Priority Support',on:true},
+        ],
+      },
+    ]
+    : [
+      {
+        name:'1-Time Trial',
+        price:'<sup>₹</sup>0<sub>/mo</sub>',
+        tagline:'Try one premium unlock for free',
+        feats:[
+          {text:'1 Premium action free',on:true},
+          {text:'Browse real course links',on:true},
+          {text:'Try one AI tool once',on:true},
+          {text:'Community',on:true},
+          {text:'Certificates',on:false},
+          {text:'Job Portal',on:false},
+        ],
+      },
+      {
+        name:'Pro',
+        price:'<sup>₹</sup>499<sub>/mo</sub>',
+        tagline:'Unlock the full career system',
+        feats:[
+          {text:'AI-built Study Paths',on:true},
+          {text:'Guided Project Roadmaps',on:true},
+          {text:'Blockchain Certs',on:true},
+          {text:'AI Resume Builder',on:true},
+          {text:'Full Job Portal',on:true},
+          {text:'AI Study Tutor',on:true},
+        ],
+      },
+      {
+        name:'Premium',
+        price:'<sup>₹</sup>999<sub>/mo</sub>',
+        tagline:'Placement guaranteed',
+        feats:[
+          {text:'Everything in Pro',on:true},
+          {text:'AI Tools Suite',on:true},
+          {text:'1-on-1 Mentorship',on:true},
+          {text:'Mock Interviews',on:true},
+          {text:'Placement Guarantee',on:true},
+          {text:'Priority Support',on:true},
+        ],
+      },
+    ];
   if(pricingNote){
-    const paymentLabel=paymentMode==='live'
-      ? 'Secure checkout via Razorpay.'
-      : paymentMode==='demo'
-        ? 'Demo checkout is active right now. No real payment will be charged.'
-        : 'Payments are temporarily unavailable right now.';
-    pricingNote.textContent=access.hasPaid
-      ? `${access.paidPlan} plan is active. All premium access is unlocked. ${paymentLabel}`
-      : access.hasTrial
-        ? `Your one-time free access was used${access.trialFeature?` for ${access.trialFeature}`:''}. Upgrade to continue. ${paymentLabel}`
-        : `One-time free access is available. After your first unlock, a paid plan is required. ${paymentLabel}`;
+    if(freeMode){
+      pricingNote.textContent='Temporary free access is active. Every SkillForge course, AI tool, platform link, and career feature is unlocked until you turn billing back on.';
+    }else{
+      const paymentLabel=paymentMode==='live'
+        ? 'Secure checkout via Razorpay.'
+        : paymentMode==='demo'
+          ? 'Demo checkout is active right now. No real payment will be charged.'
+          : 'Payments are temporarily unavailable right now.';
+      pricingNote.textContent=access.hasPaid
+        ? `${access.paidPlan} plan is active. All premium access is unlocked. ${paymentLabel}`
+        : access.hasTrial
+          ? `Your one-time free access was used${access.trialFeature?` for ${access.trialFeature}`:''}. Upgrade to continue. ${paymentLabel}`
+          : `One-time free access is available. After your first unlock, a paid plan is required. ${paymentLabel}`;
+    }
+  }
+  if(pricingHeading){
+    pricingHeading.textContent=freeMode
+      ? 'Everything is free right now.'
+      : 'Start free. Upgrade when you want the full career system.';
+  }
+  if(pricingProof.length>=3){
+    if(freeMode){
+      pricingProof[0].textContent='All features unlocked';
+      pricingProof[1].textContent='No trial or upgrade wall';
+      pricingProof[2].textContent='Turn billing back on anytime';
+    }else{
+      pricingProof[0].textContent='Start free once';
+      pricingProof[1].textContent='Pro unlocks the full system';
+      pricingProof[2].textContent='AI Mentor + Blueprint stay free';
+    }
   }
   const trialButton=document.querySelector('.pricing-grid .plan .btn-secondary.btn-full');
   if(trialButton){
-    trialButton.textContent=access.hasPaid?'Explore Courses':access.hasTrial?'Trial Used · Upgrade Next':'Use 1 Free Unlock';
+    trialButton.textContent=freeMode?'Explore Courses Free':access.hasPaid?'Explore Courses':access.hasTrial?'Trial Used · Upgrade Next':'Use 1 Free Unlock';
+  }
+  if(pricingPlans.length>=3){
+    pricingPlans.forEach((plan,index)=>{
+      const data=pricingPlanData[index];
+      if(!data)return;
+      const nameEl=plan.querySelector('.plan-name');
+      const priceEl=plan.querySelector('.plan-price');
+      const taglineEl=plan.querySelector('.plan-tagline');
+      const featsEl=plan.querySelector('.plan-feats');
+      if(nameEl)nameEl.textContent=data.name;
+      if(priceEl)priceEl.innerHTML=data.price;
+      if(taglineEl)taglineEl.textContent=data.tagline;
+      if(featsEl){
+        featsEl.innerHTML=data.feats.map(item=>`<li class="${item.on?'on':'off'}">${item.text}</li>`).join('');
+      }
+    });
+    const payNotes=document.querySelectorAll('.pay-note');
+    payNotes.forEach(note=>{
+      note.textContent=freeMode?'No payment required right now':'🔒 Secured · 7-day refund guarantee';
+    });
   }
   const pricingButtons=document.querySelectorAll('.pricing-grid button[onclick*="rzpay("]');
   if(pricingButtons[0]){
-    pricingButtons[0].textContent=paymentMode==='live'?'Pay ₹499 via Razorpay':paymentMode==='demo'?'Try Pro Demo Checkout':'Payments Unavailable';
-    pricingButtons[0].disabled=paymentMode==='disabled';
+    pricingButtons[0].textContent=freeMode?'Everything Free Right Now':paymentMode==='live'?'Pay ₹499 via Razorpay':paymentMode==='demo'?'Try Pro Demo Checkout':'Payments Unavailable';
+    pricingButtons[0].disabled=freeMode?false:paymentMode==='disabled';
   }
   if(pricingButtons[1]){
-    pricingButtons[1].textContent=paymentMode==='live'?'Pay ₹999 via Razorpay':paymentMode==='demo'?'Try Premium Demo Checkout':'Payments Unavailable';
-    pricingButtons[1].disabled=paymentMode==='disabled';
+    pricingButtons[1].textContent=freeMode?'Everything Free Right Now':paymentMode==='live'?'Pay ₹999 via Razorpay':paymentMode==='demo'?'Try Premium Demo Checkout':'Payments Unavailable';
+    pricingButtons[1].disabled=freeMode?false:paymentMode==='disabled';
   }
   const platformConfirm=document.querySelector('.plat-modal-confirm');
   if(platformConfirm){
-    platformConfirm.innerHTML=paymentMode==='live'
-      ? 'Pay ₹<span id="platModalPlatFee"></span> & Access →'
-      : paymentMode==='demo'
-        ? 'Try Demo Checkout ₹<span id="platModalPlatFee"></span> & Access →'
-        : 'Payments Unavailable<span id="platModalPlatFee" hidden></span>';
-    platformConfirm.disabled=paymentMode==='disabled';
+    platformConfirm.innerHTML=freeMode
+      ? 'Open Free →'
+      : paymentMode==='live'
+        ? 'Pay ₹<span id="platModalPlatFee"></span> & Access →'
+        : paymentMode==='demo'
+          ? 'Try Demo Checkout ₹<span id="platModalPlatFee"></span> & Access →'
+          : 'Payments Unavailable<span id="platModalPlatFee" hidden></span>';
+    platformConfirm.disabled=freeMode?false:paymentMode==='disabled';
   }
   const platformFooter=document.querySelector('.plat-modal-footer');
   if(platformFooter){
-    platformFooter.textContent=paymentMode==='live'
-      ? `Secure checkout via Razorpay · ${CONTACT_CONFIG.email}`
-      : paymentMode==='demo'
-        ? `Demo checkout active · ${CONTACT_CONFIG.email}`
-        : `Payments unavailable · ${CONTACT_CONFIG.email}`;
+    platformFooter.textContent=freeMode
+      ? `Temporary free access active · ${CONTACT_CONFIG.email}`
+      : paymentMode==='live'
+        ? `Secure checkout via Razorpay · ${CONTACT_CONFIG.email}`
+        : paymentMode==='demo'
+          ? `Demo checkout active · ${CONTACT_CONFIG.email}`
+          : `Payments unavailable · ${CONTACT_CONFIG.email}`;
+  }
+  const platformFee=document.querySelector('.plat-modal-fee');
+  if(platformFee){
+    platformFee.innerHTML=freeMode?'FREE':'₹<span id="platModalFee"></span>';
+  }
+  const platformFeeNote=document.querySelector('.plat-modal-note');
+  if(platformFeeNote){
+    platformFeeNote.textContent=freeMode?'Instant redirect · No payment required':'One-time · Instant redirect · 100% secure';
+  }
+  const platformRows=document.querySelectorAll('.plat-modal-row');
+  if(platformRows[1]){
+    platformRows[1].innerHTML=freeMode
+      ? '<span class="plat-modal-check">✓</span> Temporary free access active'
+      : '<span class="plat-modal-check">✓</span> Secured by Razorpay';
   }
   document.querySelectorAll('[data-contact-email]').forEach(link=>{
     if(link.tagName==='A')link.href=toMailtoHref(CONTACT_CONFIG.email);
@@ -1005,24 +1951,28 @@ function syncLaunchUi(){
   });
   const courseSourceNote=document.querySelector('.course-source-note');
   if(courseSourceNote){
-    courseSourceNote.textContent=access.hasPaid
-      ? `${access.paidPlan} is active. Real source links and SkillForge AI tools are unlocked.`
-      : access.hasTrial
-        ? `Your one-time free unlock has been used${access.trialFeature?` for ${access.trialFeature}`:''}. Upgrade to Pro or Premium to keep opening resources.`
-        : 'Real source courses from YouTube and trusted platforms. SkillForge gives one free unlock, then paid access is required.';
+    courseSourceNote.textContent=freeMode
+      ? 'Real source courses from YouTube and trusted platforms. Every path and unlock is free right now.'
+      : access.hasPaid
+        ? `${access.paidPlan} is active. Real source links and SkillForge AI tools are unlocked.`
+        : access.hasTrial
+          ? `Your one-time free unlock has been used${access.trialFeature?` for ${access.trialFeature}`:''}. Upgrade to Pro or Premium to keep opening resources.`
+          : 'Real source courses from YouTube and trusted platforms. SkillForge gives one free unlock, then paid access is required.';
   }
   const connectCopy=document.querySelector('#page-connect .page-head p');
   if(connectCopy){
-    connectCopy.textContent=access.hasPaid
-      ? `${access.paidPlan} is active. All linked platforms are unlocked through your paid plan.`
-      : access.hasTrial
-        ? 'Your one-time free platform unlock has been used. Upgrade to Pro or Premium to continue accessing linked platforms.'
-        : 'Access 30+ top learning, coding, cloud, job, and community platforms. Your first SkillForge platform unlock is free once, then paid access is required.';
+    connectCopy.textContent=freeMode
+      ? 'Access 30+ top learning, coding, cloud, job, and community platforms. Every SkillForge platform unlock is free right now.'
+      : access.hasPaid
+        ? `${access.paidPlan} is active. All linked platforms are unlocked through your paid plan.`
+        : access.hasTrial
+          ? 'Your one-time free platform unlock has been used. Upgrade to Pro or Premium to continue accessing linked platforms.'
+          : 'Access 30+ top learning, coding, cloud, job, and community platforms. Your first SkillForge platform unlock is free once, then paid access is required.';
   }
   const connectFreeBadge=document.querySelector('.connect-badge-free');
-  if(connectFreeBadge)connectFreeBadge.textContent=access.hasPaid?'✅ PAID PLAN ACTIVE — Platforms unlocked':'✅ 1X FREE TRIAL — Your first SkillForge unlock';
+  if(connectFreeBadge)connectFreeBadge.textContent=freeMode?'✅ FREE NOW — Every platform unlock is open':access.hasPaid?'✅ PAID PLAN ACTIVE — Platforms unlocked':'✅ 1X FREE TRIAL — Your first SkillForge unlock';
   const connectPassBadge=document.querySelector('.connect-badge-pass');
-  if(connectPassBadge)connectPassBadge.textContent=access.hasPaid?'💳 INCLUDED — No extra unlock needed right now':'💳 PAID AFTER TRIAL — Pro or Premium required';
+  if(connectPassBadge)connectPassBadge.textContent=freeMode?'💳 PAYMENT PAUSED — No upgrade required':access.hasPaid?'💳 INCLUDED — No extra unlock needed right now':'💳 PAID AFTER TRIAL — Pro or Premium required';
   const chatIntro=document.getElementById('chatIntroText');
   if(chatIntro){
     chatIntro.innerHTML=`Hi! I'm your AI assistant for SkillForge AI${CONTACT_CONFIG.founderName?` — founded by ${escapeHtml(CONTACT_CONFIG.founderName)}`:''}.<br><br>I can help with career paths, course recs, resume tips, billing, and more.<br><br>📧 ${escapeHtml(CONTACT_CONFIG.email)} · 📞 ${escapeHtml(CONTACT_CONFIG.phone)}<br><br>What's on your mind? 🚀`;
@@ -1617,6 +2567,7 @@ function syncAuthUI(){
     if(dashboardUserName)dashboardUserName.textContent='Harshal';
     if(dashboardUserEmail)dashboardUserEmail.textContent=`Sign in with ${formatProviderList(getAvailableAuthProviders())} to save your learning dashboard.`;
   }
+  renderGamificationUi();
 }
 function buildMentorReply(message){
   const lower=message.toLowerCase();
@@ -1627,7 +2578,9 @@ function buildMentorReply(message){
     return `**Resume upgrade plan**\n\nKeep it to one page, lead with a sharp summary, and add 2 to 3 proof-based projects with measurable outcomes. For each project, mention the stack, what problem you solved, and one metric such as users, speed, accuracy, or completion rate.\n\nIf you want, paste your target role next and I’ll suggest resume bullet points for it.`;
   }
   if(containsAny(lower,['billing','payment','subscription','refund','razorpay'])){
-    return `**Billing help**\n\nSkillForge AI gives one free trial unlock, then access continues on Pro at ₹499/month or Premium at ₹999/month. ${getPaymentMode()==='live'?'Payments are processed securely through Razorpay. If checkout does not open, reload once, allow pop-ups, and retry from the same button.':getPaymentMode()==='demo'?'Demo checkout is active right now, so no real payment will be charged.':'Payments are temporarily unavailable right now. Please contact support for help.'}\n\nFor manual help, use ${CONTACT_CONFIG.email} or ${CONTACT_CONFIG.phone}. If you want, I can also explain which plan fits your goal.`;
+    return isTemporaryFreeMode()
+      ? `**Billing help**\n\nTemporary free mode is active right now, so every SkillForge feature is open without payment until billing is turned back on.\n\nFor manual help, use ${CONTACT_CONFIG.email} or ${CONTACT_CONFIG.phone}.`
+      : `**Billing help**\n\nSkillForge AI gives one free trial unlock, then access continues on Pro at ₹499/month or Premium at ₹999/month. ${getPaymentMode()==='live'?'Payments are processed securely through Razorpay. If checkout does not open, reload once, allow pop-ups, and retry from the same button.':getPaymentMode()==='demo'?'Demo checkout is active right now, so no real payment will be charged.':'Payments are temporarily unavailable right now. Please contact support for help.'}\n\nFor manual help, use ${CONTACT_CONFIG.email} or ${CONTACT_CONFIG.phone}. If you want, I can also explain which plan fits your goal.`;
   }
   if(containsAny(lower,['certificate','certificates','blockchain'])){
     return `**Certificate support**\n\nCertificates unlock after course completion rules are met and are intended to be blockchain-verifiable. Before requesting support, check course progress, final quiz status, and payment state if it is a premium course.\n\nIf the certificate still does not appear, send the course title and your registered email so support can trace it faster.`;
@@ -1647,12 +2600,14 @@ function buildLessonPack(topic){
   const cleanTopic=topic.trim();
   const lower=cleanTopic.toLowerCase();
   const found=LESSON_LIBRARY.find(item=>containsAny(lower,item.match));
-  if(found)return found;
+  const practiceHint=LESSON_PRACTICE_LIBRARY.find(item=>containsAny(lower,item.match));
+  if(found)return {...found,practice:found.practice||practiceHint?.practice||''};
   return {
     lesson:`<strong>${escapeHtml(cleanTopic)}</strong> becomes easier when you break it into three parts: the core idea, one real example, and the tradeoff. Start by defining what problem the topic solves, then build a tiny example, and finally explain when you would or would not use it.<br><br>That pattern works well for interviews and for real learning because it pushes you beyond memorization into reasoning.`,
     question:`What is the best first step when learning ${cleanTopic}?`,
     options:['Memorize syntax only','Ignore examples','Understand the core problem it solves','Skip the basics'],
     answer:2,
+    practice:`**Build it now**\n\nCreate one tiny demo around ${cleanTopic} with a visible result you can show, explain, and improve after one round of feedback.`,
   };
 }
 function buildPlanWeeks(){
@@ -1717,6 +2672,8 @@ function buildBlueprintData(data){
     skills:profile.skills,
     courses:profile.courses,
     roles:profile.roles,
+    projects:profile.projects||[],
+    firstMoves:profile.firstMoves||[],
     milestones:[
       `Month 1-2: Build foundations in ${firstSkills} and complete one guided project.`,
       `Month 3-4: Add ${nextSkills}, ship 2 portfolio pieces, and practice explaining your work clearly.`,
@@ -1742,30 +2699,92 @@ function renderRoadmap(weeks){
 // CURSOR
 // ───────────────────────────────────────────
 const c1=document.getElementById('CUR'),c2=document.getElementById('CUR2');
-const INTERACTIVE_CURSOR_SELECTOR='button,a,.q-opt4,.topicbtn,.bento-card,.plat-card,.crs-card,.cg-card,.job-card,.job-apply-btn,.sugg2,.auth-tab,.auth-link-btn,.auth-close,.nav-ghost,.auth-provider';
+const finePointerQuery=window.matchMedia('(pointer: fine)');
+const reducedMotionQuery=window.matchMedia('(prefers-reduced-motion: reduce)');
+const INTERACTIVE_CURSOR_SELECTOR='button,a,.q-opt4,.topicbtn,.bento-card,.plat-card,.crs-card,.cg-card,.job-card,.job-apply-btn,.sugg2,.auth-tab,.auth-link-btn,.auth-close,.nav-ghost,.nav-pill,.auth-provider';
+let cursorEnabled=false;
+let cursorX=0;
+let cursorY=0;
+let cursorFrame=0;
+
+function canUseHighMotionEffects(){
+  return !reducedMotionQuery.matches&&window.innerWidth>960;
+}
+function shouldEnableCursor(){
+  return canUseHighMotionEffects()&&finePointerQuery.matches;
+}
+function syncCursorAvailability(){
+  cursorEnabled=shouldEnableCursor();
+  if(!c1||!c2)return;
+  const opacity=cursorEnabled?'1':'0';
+  c1.style.opacity=opacity;
+  c2.style.opacity=opacity;
+  if(!cursorEnabled)setCursorState(false);
+}
+function flushCursorPosition(){
+  cursorFrame=0;
+  if(!cursorEnabled||!c1||!c2)return;
+  const x=`${cursorX}px`;
+  const y=`${cursorY}px`;
+  c1.style.left=x;
+  c1.style.top=y;
+  c2.style.left=x;
+  c2.style.top=y;
+}
 document.addEventListener('mousemove',e=>{
-  c1.style.cssText+=`left:${e.clientX}px;top:${e.clientY}px`;
-  c2.style.cssText+=`left:${e.clientX}px;top:${e.clientY}px`;
+  if(!cursorEnabled)return;
+  cursorX=e.clientX;
+  cursorY=e.clientY;
+  if(!cursorFrame)cursorFrame=requestAnimationFrame(flushCursorPosition);
 });
 function setCursorState(active){
+  if(!c2)return;
   c2.style.transform=active?'translate(-50%,-50%) scale(1.6)':'translate(-50%,-50%) scale(1)';
   c2.style.borderColor=active?'rgba(79,142,255,.8)':'rgba(79,142,255,.4)';
 }
 document.addEventListener('pointerover',e=>{
+  if(!cursorEnabled)return;
   if(e.target.closest(INTERACTIVE_CURSOR_SELECTOR))setCursorState(true);
 });
 document.addEventListener('pointerout',e=>{
+  if(!cursorEnabled)return;
   if(!e.relatedTarget?.closest(INTERACTIVE_CURSOR_SELECTOR))setCursorState(false);
 });
 
 // ───────────────────────────────────────────
-// 3D PARTICLE CANVAS
+// AMBIENT PARTICLE CANVAS
 // ───────────────────────────────────────────
 const cv=document.getElementById('cv');
-const ctx=cv.getContext('2d');
-let W,H;
-function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight}
-resize();addEventListener('resize',resize);
+const ctx=cv?.getContext('2d');
+let W=0,H=0,DPR=1;
+let ambientFrame=0;
+let particles=[];
+function getParticleCount(){
+  if(window.innerWidth>=1440)return 72;
+  if(window.innerWidth>=1100)return 56;
+  return 40;
+}
+function rebuildParticles(){
+  particles=Array.from({length:getParticleCount()},()=>new P());
+}
+function resizeAmbientCanvas(){
+  if(!cv||!ctx)return;
+  DPR=Math.min(window.devicePixelRatio||1,1.5);
+  W=window.innerWidth;
+  H=window.innerHeight;
+  cv.width=Math.round(W*DPR);
+  cv.height=Math.round(H*DPR);
+  ctx.setTransform(DPR,0,0,DPR,0,0);
+  rebuildParticles();
+}
+function clearAmbientCanvas(){
+  if(!ctx)return;
+  ctx.clearRect(0,0,W,H);
+}
+function shouldRunAmbientEffects(){
+  const homePage=document.getElementById('page-home');
+  return Boolean(ctx)&&canUseHighMotionEffects()&&!document.hidden&&homePage?.classList.contains('active');
+}
 
 class P{
   constructor(){this.reset()}
@@ -1788,33 +2807,59 @@ class P{
     ctx.fillStyle=`hsla(${this.hue},90%,70%,${life*.5})`;ctx.fill();
   }
 }
-const particles=Array.from({length:180},()=>new P());
 
-function drawGrid(){
-  ctx.strokeStyle='rgba(79,142,255,0.022)';ctx.lineWidth=.8;
-  for(let x=0;x<W;x+=72){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke()}
-  for(let y=0;y<H;y+=72){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}
-}
 function drawEdges(){
   for(let i=0;i<particles.length;i++){
     const a=particles[i];
     const sax=500/(500+a.z)*(a.x-W/2)+W/2,say=500/(500+a.z)*(a.y-H/2)+H/2;
-    for(let j=i+1;j<Math.min(i+6,particles.length);j++){
+    for(let j=i+1;j<Math.min(i+4,particles.length);j++){
       const b=particles[j];
       const sbx=500/(500+b.z)*(b.x-W/2)+W/2,sby=500/(500+b.z)*(b.y-H/2)+H/2;
       const d=Math.hypot(sax-sbx,say-sby);
-      if(d<130){ctx.beginPath();ctx.moveTo(sax,say);ctx.lineTo(sbx,sby);ctx.strokeStyle=`rgba(79,142,255,${(1-d/130)*.07})`;ctx.lineWidth=.5;ctx.stroke()}
+      if(d<110){
+        ctx.beginPath();
+        ctx.moveTo(sax,say);
+        ctx.lineTo(sbx,sby);
+        ctx.strokeStyle=`rgba(79,142,255,${(1-d/110)*.06})`;
+        ctx.lineWidth=.5;
+        ctx.stroke();
+      }
     }
   }
 }
-function loop(){
-  ctx.clearRect(0,0,W,H);
-  drawGrid();
+function renderAmbientFrame(){
+  if(!shouldRunAmbientEffects()){
+    ambientFrame=0;
+    clearAmbientCanvas();
+    return;
+  }
+  clearAmbientCanvas();
   particles.forEach(p=>{p.update();p.draw()});
   drawEdges();
-  requestAnimationFrame(loop);
+  ambientFrame=requestAnimationFrame(renderAmbientFrame);
 }
-loop();
+function syncAmbientEffects(){
+  syncCursorAvailability();
+  if(!ctx)return;
+  if(shouldRunAmbientEffects()){
+    if(particles.length===0)rebuildParticles();
+    if(!ambientFrame)ambientFrame=requestAnimationFrame(renderAmbientFrame);
+  }else{
+    if(ambientFrame){
+      cancelAnimationFrame(ambientFrame);
+      ambientFrame=0;
+    }
+    clearAmbientCanvas();
+  }
+}
+resizeAmbientCanvas();
+addEventListener('resize',()=>{
+  resizeAmbientCanvas();
+  syncAmbientEffects();
+});
+document.addEventListener('visibilitychange',syncAmbientEffects);
+finePointerQuery.addEventListener?.('change',syncAmbientEffects);
+reducedMotionQuery.addEventListener?.('change',syncAmbientEffects);
 
 // ───────────────────────────────────────────
 // AUDIO (subtle, tasteful)
@@ -1852,6 +2897,7 @@ function go(id,{updateHash=true}={}){
   PAGES.forEach(p=>{const el=document.getElementById('page-'+p);if(el)el.classList.toggle('active',p===id)});
   if(updateHash)syncPageHash(id);
   window.scrollTo(0,0);
+  syncAmbientEffects();
   if(id==='home')initHome();
   if(id==='courses')initCourses();
   if(id==='jobs')initJobs();
@@ -1883,17 +2929,41 @@ function initHome(){
   // platform preview
   const pg=document.getElementById('platGridHome');
   if(pg)renderPlatCards(pg,HOME_PLATFORMS);
-  // testi
+  // current-year social proof
+  const socialProofStats=document.getElementById('socialProofStats');
+  if(socialProofStats){
+    socialProofStats.innerHTML=SOCIAL_PROOF_STATS.map(item=>`<article class="social-proof-stat">
+      <div class="social-proof-stat-value">${escapeHtml(item.value)}</div>
+      <div class="social-proof-stat-label">${escapeHtml(item.label)}</div>
+      <p class="social-proof-stat-note">${escapeHtml(item.note)}</p>
+    </article>`).join('');
+  }
+  // testimonials
   const tg=document.getElementById('testiGrid3');
-  if(tg&&tg.children.length===0){
+  if(tg){
     tg.innerHTML=TESTI_DATA.map(t=>`<div class="testi-card">
+      <div class="testi-top">
+        <div class="testi-pill testi-pill-year">${CURRENT_YEAR}</div>
+        <div class="testi-pill">${escapeHtml(t.track)}</div>
+      </div>
       <div class="testi-quote">"</div>
       <div class="testi-stars">★★★★★</div>
-      <div class="testi-text">"${t.text}"</div>
+      <div class="testi-text">"${escapeHtml(t.text)}"</div>
+      <div class="testi-proof-row">
+        <div class="testi-proof-chip">
+          <span>Outcome</span>
+          <strong>${escapeHtml(t.outcome)}</strong>
+        </div>
+        <div class="testi-proof-chip">
+          <span>Proof Built</span>
+          <strong>${escapeHtml(t.proof)}</strong>
+        </div>
+      </div>
       <div class="testi-user">
-        <div class="testi-av" style="background:hsla(${t.h},70%,40%,.2);color:hsl(${t.h},80%,65%);border:1.5px solid hsl(${t.h},60%,35%)">${t.av}</div>
-        <div><div class="testi-n">${t.name}</div><div class="testi-r">${t.role}</div></div>
-      </div></div>`).join('');
+        <div class="testi-av" style="background:hsla(${t.h},70%,40%,.2);color:hsl(${t.h},80%,65%);border:1.5px solid hsl(${t.h},60%,35%)">${escapeHtml(t.av)}</div>
+        <div><div class="testi-n">${escapeHtml(t.name)}</div><div class="testi-r">${escapeHtml(t.role)}</div></div>
+      </div>
+    </div>`).join('');
   }
 }
 function animNum(id,target,sfx,step){
@@ -1967,9 +3037,13 @@ function platAccess(event,url,fee,name){
 function closePlatModal(){document.getElementById('platModal').classList.remove('open')}
 function confirmPlatAccess(){
   const url=document.getElementById('platModalUrl').value;
+  closePlatModal();
+  if(isTemporaryFreeMode()){
+    if(url)window.open(url,'_blank','noopener');
+    return;
+  }
   const fee=parseInt(document.getElementById('platModalFee').textContent,10);
   const name=document.getElementById('platModalName').textContent;
-  closePlatModal();
   rzpay(fee,'Access Pass: '+name,()=>window.open(url,'_blank','noopener'));
 }
 
@@ -2056,16 +3130,14 @@ async function runMentorReply(msg){
     await delay(650);
     const rep=buildMentorReply(msg);
     chatH.push({role:'assistant',content:rep});
-    removeTyp3();addMsg('bot',rep);sndSuccess();
+    removeTyp3();addMsg('bot',rep);sndSuccess();trackMentorCheckIn();
   }catch(e){removeTyp3();addMsg('bot',`Connection issue. Please retry or email ${CONTACT_CONFIG.email} 📧`);sndError()}
 }
 function sendC3(){
   const inp=document.getElementById('chatI3');
   const msg=inp.value.trim();if(!msg)return;
-  requestPremiumFeatureAccess('AI Mentor',()=>{
-    inp.value='';
-    void runMentorReply(msg);
-  });
+  inp.value='';
+  void runMentorReply(msg);
 }
 function sendS3(t){document.getElementById('chatI3').value=t;sendC3()}
 function addMsg(role,text){
@@ -2091,9 +3163,10 @@ async function runTutorLesson(topic,btn){
   try{
     await delay(850);
     const p=buildLessonPack(topic);
-    document.getElementById('lessonOut').innerHTML=p.lesson||'Lesson ready!';
-    curQuiz3={q:p.question,opts:p.options,ans:p.answer};
+    document.getElementById('lessonOut').innerHTML=`${p.lesson||'Lesson ready!'}${p.practice?`<div class="lesson-practice">${formatRichText(p.practice)}</div>`:''}`;
+    curQuiz3={q:p.question,opts:p.options,ans:p.answer,topic};
     renderQ3();document.getElementById('quizP3').style.display='block';sndSuccess();
+    trackTutorLesson(topic);
   }catch(e){document.getElementById('lessonOut').innerHTML='<span style="color:var(--muted)">Could not generate lesson. Try again or check connection.</span>';sndError()}
 }
 function lTopic(topic,btn){
@@ -2108,7 +3181,7 @@ function renderQ3(){
 }
 function checkQ3(i,btn){
   document.querySelectorAll('.qopt3').forEach(o=>o.disabled=true);
-  if(i===curQuiz3.ans){btn.classList.add('correct');sndSuccess()}
+  if(i===curQuiz3.ans){btn.classList.add('correct');sndSuccess();trackTutorQuizWin(curQuiz3?.topic||'AI Tutor Quiz')}
   else{btn.classList.add('wrong');document.querySelectorAll('.qopt3')[curQuiz3.ans].classList.add('correct');sndError()}
 }
 
@@ -2121,6 +3194,7 @@ async function runRePlan(){
     await delay(900);
     renderRoadmap(buildPlanWeeks());
     sndSuccess();
+    trackPlanRefresh();
   }catch(e){sndError()}
   finally{document.getElementById('loading3').classList.remove('on')}
 }
@@ -2149,7 +3223,7 @@ async function runBlueprintGeneration(){
   sndClick();document.getElementById('loading3').classList.add('on');
   try{
     await delay(1000);
-    showBP3(buildBlueprintData(bpD));sndSuccess();
+    showBP3(buildBlueprintData(bpD));sndSuccess();trackBlueprintRun();
   }catch(e){
     showBP3({tagline:`Your ${bpD.int||'Tech'} journey starts now!`,paths:['Full Stack Dev','Frontend Engineer','Software Engineer'],skills:['JavaScript','React','Node.js','Git','SQL'],courses:['Responsive Web Design Certification','CS50’s Web Programming with Python and JavaScript','CS50x: Introduction to Computer Science'],roles:['Junior Dev','Frontend Dev','Full Stack','SWE'],milestones:['Month 1-2: Fundamentals','Month 3-4: Projects','Month 5-6: Job hunt'],salary:'₹6-14 LPA start'});sndError();
   }
@@ -2160,9 +3234,7 @@ function genBP3(){
     sndError();
     return;
   }
-  requestPremiumFeatureAccess('Career Blueprint',()=>{
-    void runBlueprintGeneration();
-  });
+  void runBlueprintGeneration();
 }
 const RDOTS=['var(--electric)','var(--emerald)','var(--rose)','var(--amber)'];
 function showBP3(p){
@@ -2174,6 +3246,8 @@ function showBP3(p){
     <div class="res-card4"><h4>🛠️ Skills to Learn</h4><ul class="res-list4">${(p.skills||[]).map(i=>`<li><div class="rdot" style="background:${RDOTS[1]}"></div>${i}</li>`).join('')}</ul></div>
     <div class="res-card4"><h4>📚 Courses</h4><ul class="res-list4">${(p.courses||[]).map(i=>`<li><div class="rdot" style="background:${RDOTS[2]}"></div>${i}</li>`).join('')}</ul></div>
     <div class="res-card4"><h4>💼 Job Roles</h4><ul class="res-list4">${(p.roles||[]).map(i=>`<li><div class="rdot" style="background:${RDOTS[3]}"></div>${i}</li>`).join('')}</ul></div>
+    <div class="res-card4"><h4>🚀 Projects to Ship</h4><ul class="res-list4">${(p.projects||[]).map(i=>`<li><div class="rdot" style="background:var(--cyan)"></div>${i}</li>`).join('')}</ul></div>
+    <div class="res-card4"><h4>⚡ First 14 Days</h4><ul class="res-list4">${(p.firstMoves||[]).map(i=>`<li><div class="rdot" style="background:var(--amber)"></div>${i}</li>`).join('')}</ul></div>
     <div class="res-card4" style="grid-column:1/-1"><h4>📅 Roadmap Timeline</h4><ul class="res-list4">${(p.milestones||[]).map(i=>`<li><div class="rdot" style="background:var(--violet)"></div>${i}</li>`).join('')}</ul>${p.salary?`<p style="margin-top:12px;color:var(--emerald);font-family:'Cabinet Grotesk',sans-serif;font-size:15px;font-weight:800">💰 Expected: ${p.salary}</p>`:''}</div>`;
 }
 function restBP3(){document.getElementById('bpQuiz').style.display='block';document.getElementById('bpResult').style.display='none';document.querySelectorAll('.q-step4').forEach((s,i)=>s.classList.toggle('on',i===0));document.querySelectorAll('.q-opt4').forEach(o=>o.classList.remove('sel'));Object.keys(bpD).forEach(k=>delete bpD[k])}
@@ -2190,6 +3264,13 @@ function initConnect(){
 // RAZORPAY
 // ───────────────────────────────────────────
 async function rzpay(amount,planName,onSuccess){
+  if(isTemporaryFreeMode()){
+    sndSuccess();
+    alert('Temporary free mode is active. No payment is required right now.');
+    if(typeof onSuccess==='function')onSuccess();
+    else go('courses');
+    return;
+  }
   sndClick();
   const parsedAmount=parseInt(String(amount).replace(/[^0-9]/g,''),10);
   if(!parsedAmount){sndError();return}
@@ -2276,6 +3357,8 @@ async function rzpay(amount,planName,onSuccess){
 // ───────────────────────────────────────────
 addEventListener('load',()=>{
   setRuntimeText();
+  syncAmbientEffects();
+  syncGamificationForDay();
   syncLaunchUi();
   setAuthModeCopy();
   syncAuthUI();

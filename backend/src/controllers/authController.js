@@ -3,6 +3,7 @@ const User = require("../models/User");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
 const { generateToken } = require("../services/tokenService");
+const { sendSuccess } = require("../utils/apiResponse");
 
 const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
@@ -17,11 +18,15 @@ const buildAuthResponse = (user) => ({
     bio: user.bio,
     headline: user.headline,
     provider: user.provider,
+    streak: user.streak,
+    xp: user.xp,
+    lastActiveAt: user.lastActiveAt,
   },
 });
 
 const register = asyncHandler(async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, role } = req.body;
+  const nextRole = ["student", "educator"].includes(role) ? role : "student";
 
   if (!name || !email || !password) {
     throw new ApiError(400, "Name, email, and password are required");
@@ -36,13 +41,11 @@ const register = asyncHandler(async (req, res) => {
     name,
     email: email.toLowerCase(),
     password,
+    role: nextRole,
     provider: "local",
   });
 
-  res.status(201).json({
-    message: "Account created successfully",
-    ...buildAuthResponse(user),
-  });
+  sendSuccess(res, buildAuthResponse(user), "Account created successfully", 201);
 });
 
 const login = asyncHandler(async (req, res) => {
@@ -57,10 +60,7 @@ const login = asyncHandler(async (req, res) => {
     throw new ApiError(401, "Invalid email or password");
   }
 
-  res.json({
-    message: "Login successful",
-    ...buildAuthResponse(user),
-  });
+  sendSuccess(res, buildAuthResponse(user), "Login successful");
 });
 
 const googleLogin = asyncHandler(async (req, res) => {
@@ -101,14 +101,11 @@ const googleLogin = asyncHandler(async (req, res) => {
     await user.save();
   }
 
-  res.json({
-    message: "Google login successful",
-    ...buildAuthResponse(user),
-  });
+  sendSuccess(res, buildAuthResponse(user), "Google login successful");
 });
 
 const getMe = asyncHandler(async (req, res) => {
-  res.json({ user: req.user });
+  sendSuccess(res, { user: req.user }, "Current user fetched successfully");
 });
 
 const updateProfile = asyncHandler(async (req, res) => {
@@ -122,10 +119,7 @@ const updateProfile = asyncHandler(async (req, res) => {
 
   await req.user.save();
 
-  res.json({
-    message: "Profile updated successfully",
-    user: req.user,
-  });
+  sendSuccess(res, { user: req.user }, "Profile updated successfully");
 });
 
 module.exports = {

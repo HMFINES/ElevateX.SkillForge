@@ -38,13 +38,25 @@ const userSchema = new mongoose.Schema(
     },
     role: {
       type: String,
-      enum: ["student", "admin"],
+      enum: ["student", "educator", "admin"],
       default: "student",
     },
     provider: {
       type: String,
       enum: ["local", "google"],
       default: "local",
+    },
+    streak: {
+      type: Number,
+      default: 0,
+    },
+    xp: {
+      type: Number,
+      default: 0,
+    },
+    lastActiveAt: {
+      type: Date,
+      default: Date.now,
     },
   },
   {

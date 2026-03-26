@@ -5,7 +5,8 @@ import { api } from "@/lib/api";
 
 const AuthContext = createContext(null);
 
-const STORAGE_KEY = "elevatex-auth-token";
+const STORAGE_KEY = "skillforge-auth-token";
+const LEGACY_STORAGE_KEY = "elevatex-auth-token";
 
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(null);
@@ -14,7 +15,9 @@ export function AuthProvider({ children }) {
 
   useEffect(() => {
     const storedToken =
-      typeof window !== "undefined" ? localStorage.getItem(STORAGE_KEY) : null;
+      typeof window !== "undefined"
+        ? localStorage.getItem(STORAGE_KEY) || localStorage.getItem(LEGACY_STORAGE_KEY)
+        : null;
 
     if (!storedToken) {
       setLoading(false);
@@ -29,12 +32,14 @@ export function AuthProvider({ children }) {
       })
       .catch(() => {
         localStorage.removeItem(STORAGE_KEY);
+        localStorage.removeItem(LEGACY_STORAGE_KEY);
       })
       .finally(() => setLoading(false));
   }, []);
 
   const persistAuth = (response) => {
     localStorage.setItem(STORAGE_KEY, response.token);
+    localStorage.removeItem(LEGACY_STORAGE_KEY);
     setToken(response.token);
     setUser(response.user);
     return response;
@@ -47,6 +52,7 @@ export function AuthProvider({ children }) {
 
   const logout = () => {
     localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(LEGACY_STORAGE_KEY);
     setToken(null);
     setUser(null);
   };

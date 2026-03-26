@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ArrowRight, Award, ExternalLink, PlayCircle } from "lucide-react";
 import LessonChecklist from "@/components/course/LessonChecklist";
 import { api } from "@/lib/api";
@@ -16,7 +16,7 @@ export default function CourseDetailPage({ params }) {
   const [message, setMessage] = useState("");
   const completedLessons = progress?.completedLessons || [];
 
-  const loadCourse = async () => {
+  const loadCourse = useCallback(async () => {
     setLoading(true);
     try {
       const response = await api.getCourse(params.slug, token);
@@ -25,11 +25,11 @@ export default function CourseDetailPage({ params }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [params.slug, token]);
 
   useEffect(() => {
     loadCourse();
-  }, [params.slug, token]);
+  }, [loadCourse]);
 
   const handleEnroll = async () => {
     if (!course || !token) return;

@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuth } from "@/context/AuthContext";
+import Card from "@/design-system/Card";
 
 export default function AuthGuard({ children, adminOnly = false }) {
   const router = useRouter();
@@ -13,7 +14,7 @@ export default function AuthGuard({ children, adminOnly = false }) {
     if (loading) return;
 
     if (!isAuthenticated) {
-      router.replace(`/login?next=${encodeURIComponent(pathname)}`);
+      router.replace(`/auth/login?next=${encodeURIComponent(pathname)}`);
       return;
     }
 
@@ -25,7 +26,9 @@ export default function AuthGuard({ children, adminOnly = false }) {
   if (loading || !isAuthenticated || (adminOnly && !isAdmin)) {
     return (
       <div className="shell py-24">
-        <div className="glass-card p-8 text-center text-muted">Loading your workspace...</div>
+        <Card padding="lg" className="text-center text-muted">
+          Loading your workspace...
+        </Card>
       </div>
     );
   }
