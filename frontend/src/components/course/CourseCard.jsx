@@ -3,7 +3,10 @@ import Link from "next/link";
 import { ArrowRight, BadgeCheck, ExternalLink, Timer } from "lucide-react";
 import clsx from "clsx";
 import { formatCategoryColor } from "@/lib/format";
-import { passthroughImageLoader } from "@/lib/imageLoader";
+import {
+  canOptimizeExternalImage,
+  passthroughImageLoader,
+} from "@/lib/imageLoader";
 import Card from "@/design-system/Card";
 import Badge from "@/design-system/Badge";
 import { buttonStyles } from "@/design-system/Button";
@@ -15,7 +18,7 @@ export default function CourseCard({ course }) {
         <div className="relative h-52 overflow-hidden">
           <Image
             loader={passthroughImageLoader}
-            unoptimized
+            unoptimized={!canOptimizeExternalImage(course.thumbnail)}
             src={course.thumbnail}
             alt={course.title}
             fill

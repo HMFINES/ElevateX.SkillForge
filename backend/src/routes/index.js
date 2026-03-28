@@ -22,7 +22,7 @@ router.get("/health", (_req, res) => {
   sendSuccess(
     res,
     {
-      service: "SkillForge API",
+      service: "ElevateX API",
       founder: "Harshal Wakode",
       uptime: process.uptime(),
       database: {

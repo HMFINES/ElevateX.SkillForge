@@ -22,11 +22,15 @@ const seed = async () => {
   }
 
   for (const course of sampleCourses) {
-    await Course.findOneAndUpdate(
-      { title: course.title },
-      course,
-      { upsert: true, new: true, setDefaultsOnInsert: true }
-    );
+    const existingCourse = await Course.findOne({ title: course.title });
+
+    if (!existingCourse) {
+      await Course.create(course);
+      continue;
+    }
+
+    Object.assign(existingCourse, course);
+    await existingCourse.save();
   }
 
   console.log("Seed complete");

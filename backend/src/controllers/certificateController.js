@@ -41,10 +41,29 @@ const createCertificateRecord = async ({ user, course }) => {
   return certificate.populate("courseId");
 };
 
+const buildCompletedProgressState = (course) => {
+  const completedLessons = Array.isArray(course.lessons)
+    ? course.lessons.map((lesson) => lesson.lessonId)
+    : [];
+  const completedAt = new Date();
+
+  return {
+    completedLessons,
+    progressPercent: 100,
+    completed: true,
+    completedAt,
+    lastLessonId: completedLessons.at(-1) || "",
+  };
+};
+
 const generateCertificate = asyncHandler(async (req, res) => {
   const course = await Course.findById(req.params.courseId);
   if (!course) {
     throw new ApiError(404, "Course not found");
+  }
+
+  if (course.isExternal) {
+    throw new ApiError(400, "External courses do not issue ElevateX certificates");
   }
 
   const progress = await Progress.findOne({
@@ -105,18 +124,26 @@ const issueManualCertificate = asyncHandler(async (req, res) => {
     throw new ApiError(404, "User or course not found");
   }
 
+  if (course.isExternal) {
+    throw new ApiError(400, "External courses do not issue ElevateX certificates");
+  }
+
   const certificate = await createCertificateRecord({ user, course });
+  const completedProgress = buildCompletedProgressState(course);
 
   await Progress.findOneAndUpdate(
     { userId: user._id, courseId: course._id },
     {
       userId: user._id,
       courseId: course._id,
-      completed: true,
-      progressPercent: 100,
-      completedAt: new Date(),
+      ...completedProgress,
     },
-    { upsert: true, new: true }
+    {
+      upsert: true,
+      new: true,
+      setDefaultsOnInsert: true,
+      runValidators: true,
+    }
   );
 
   res.status(201).json({

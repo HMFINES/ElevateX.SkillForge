@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import CourseCard from "@/components/course/CourseCard";
 import SectionHeading from "@/components/shared/SectionHeading";
 import { api } from "@/lib/api";
+import Skeleton from "@/design-system/Skeleton";
 
 const categories = ["All", "AI", "Web Dev", "Business", "Freelancing"];
 
@@ -11,9 +12,31 @@ export default function CoursesPage() {
   const [courses, setCourses] = useState([]);
   const [activeCategory, setActiveCategory] = useState("All");
   const [search, setSearch] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    api.getCourses().then((response) => setCourses(response.courses || []));
+    let isActive = true;
+
+    api
+      .getCourses()
+      .then((response) => {
+        if (!isActive) return;
+        setCourses(response.courses || []);
+      })
+      .catch((err) => {
+        if (!isActive) return;
+        setError(err.message || "Could not load courses right now.");
+      })
+      .finally(() => {
+        if (isActive) {
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      isActive = false;
+    };
   }, []);
 
   const filteredCourses = useMemo(() => {
@@ -62,11 +85,28 @@ export default function CoursesPage() {
         />
       </div>
 
+      {error ? <div className="mt-8 glass-card p-4 text-sm text-error">{error}</div> : null}
+
       <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-        {filteredCourses.map((course) => (
-          <CourseCard key={course._id} course={course} />
-        ))}
+        {loading
+          ? Array.from({ length: 6 }).map((_, index) => (
+              <div key={index} className="glass-card overflow-hidden p-0">
+                <Skeleton className="h-52 w-full rounded-none" />
+                <div className="space-y-4 p-6">
+                  <Skeleton className="h-5 w-32" />
+                  <Skeleton className="h-8 w-4/5" />
+                  <Skeleton className="h-20 w-full" />
+                </div>
+              </div>
+            ))
+          : filteredCourses.map((course) => <CourseCard key={course._id} course={course} />)}
       </div>
+
+      {!loading && !error && filteredCourses.length === 0 ? (
+        <div className="mt-8 glass-card p-6 text-sm text-muted">
+          No courses matched your current filters.
+        </div>
+      ) : null}
     </div>
   );
 }

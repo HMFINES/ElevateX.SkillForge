@@ -7,6 +7,10 @@
     "frontend"
   ],
   "scripts": {
+    "db:install": "./scripts/install-local-mongo.sh",
+    "db:start": "./scripts/local-mongo.sh start",
+    "db:stop": "./scripts/local-mongo.sh stop",
+    "db:status": "./scripts/local-mongo.sh status",
     "dev:backend": "npm --prefix backend run dev",
     "dev:frontend": "npm --prefix frontend run dev",
     "start:backend": "npm --prefix backend run start",

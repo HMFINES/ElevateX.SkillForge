@@ -6,13 +6,45 @@ import { formatDate } from "@/lib/format";
 
 export default function CertificateDetailPage({ params }) {
   const [certificate, setCertificate] = useState(null);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.getCertificate(params.certificateId).then((response) => setCertificate(response.certificate));
+    let isActive = true;
+
+    api
+      .getCertificate(params.certificateId)
+      .then((response) => {
+        if (!isActive) return;
+        setCertificate(response.certificate);
+      })
+      .catch((err) => {
+        if (!isActive) return;
+        setError(err.message || "Could not load this certificate.");
+      })
+      .finally(() => {
+        if (isActive) {
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      isActive = false;
+    };
   }, [params.certificateId]);
 
-  if (!certificate) {
+  if (loading) {
     return <div className="shell pb-20">Loading certificate...</div>;
+  }
+
+  if (!certificate) {
+    return (
+      <div className="shell pb-20">
+        <div className="glass-card p-6 text-sm text-error">
+          {error || "Certificate not found."}
+        </div>
+      </div>
+    );
   }
 
   return (

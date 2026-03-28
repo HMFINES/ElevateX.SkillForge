@@ -1,6 +1,9 @@
 import Image from "next/image";
 import clsx from "clsx";
-import { passthroughImageLoader } from "@/lib/imageLoader";
+import {
+  canOptimizeExternalImage,
+  passthroughImageLoader,
+} from "@/lib/imageLoader";
 
 const sizeStyles = {
   sm: "h-10 w-10 text-sm",
@@ -20,7 +23,7 @@ export default function Avatar({ src, fallback = "SF", size = "md", className })
   return src ? (
     <Image
       loader={passthroughImageLoader}
-      unoptimized
+      unoptimized={!canOptimizeExternalImage(src)}
       src={src}
       alt={`${fallback} avatar`}
       width={imageSize}

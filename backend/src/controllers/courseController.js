@@ -3,6 +3,8 @@ const Progress = require("../models/Progress");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
 
+const escapeRegExp = (value = "") => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
 const listCourses = asyncHandler(async (req, res) => {
   const { category, type, search } = req.query;
   const filter = { published: true };
@@ -19,11 +21,15 @@ const listCourses = asyncHandler(async (req, res) => {
     filter.isExternal = true;
   }
 
-  if (search) {
+  const normalizedSearch = typeof search === "string" ? search.trim() : "";
+
+  if (normalizedSearch) {
+    const searchRegex = new RegExp(escapeRegExp(normalizedSearch), "i");
+
     filter.$or = [
-      { title: { $regex: search, $options: "i" } },
-      { description: { $regex: search, $options: "i" } },
-      { tags: { $in: [new RegExp(search, "i")] } },
+      { title: searchRegex },
+      { description: searchRegex },
+      { tags: { $in: [searchRegex] } },
     ];
   }
 

@@ -202,6 +202,9 @@ Frontend runs on `http://localhost:3000` and backend runs on `http://localhost:5
 PORT=5000
 NODE_ENV=development
 MONGODB_URI=mongodb://127.0.0.1:27017/elevatex
+DB_CONNECT_RETRIES=5
+DB_CONNECT_RETRY_DELAY_MS=5000
+DB_SERVER_SELECTION_TIMEOUT_MS=10000
 CLIENT_URL=http://localhost:3000
 JWT_SECRET=replace_this_with_a_long_random_secret
 JWT_EXPIRES_IN=7d
@@ -240,6 +243,9 @@ NEXT_PUBLIC_GOOGLE_CLIENT_ID=your_google_oauth_client_id
    - `PORT`
    - `NODE_ENV=production`
    - `MONGODB_URI`
+   - `DB_CONNECT_RETRIES`
+   - `DB_CONNECT_RETRY_DELAY_MS`
+   - `DB_SERVER_SELECTION_TIMEOUT_MS`
    - `CLIENT_URL`
    - `JWT_SECRET`
    - `JWT_EXPIRES_IN`

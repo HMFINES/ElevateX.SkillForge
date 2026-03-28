@@ -14,41 +14,71 @@ export default function CourseDetailPage({ params }) {
   const [progress, setProgress] = useState(null);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
+  const [error, setError] = useState("");
   const completedLessons = progress?.completedLessons || [];
 
   const loadCourse = useCallback(async () => {
     setLoading(true);
+    setError("");
+
     try {
       const response = await api.getCourse(params.slug, token);
       setCourse(response.course);
       setProgress(response.progress);
+    } catch (err) {
+      setCourse(null);
+      setProgress(null);
+      setError(err.message || "Could not load this course.");
     } finally {
       setLoading(false);
     }
   }, [params.slug, token]);
 
   useEffect(() => {
-    loadCourse();
+    loadCourse().catch(() => {});
   }, [loadCourse]);
 
   const handleEnroll = async () => {
     if (!course || !token) return;
-    const response = await api.enrollCourse(course._id, token);
-    setProgress(response.progress);
-    setMessage("Course added to your dashboard.");
+    setMessage("");
+
+    try {
+      const response = await api.enrollCourse(course._id, token);
+      setProgress(response.progress);
+      setMessage("Course added to your dashboard.");
+    } catch (err) {
+      setMessage(err.message || "Could not enroll right now.");
+    }
   };
 
   const handleComplete = async (lessonId) => {
     if (!course || !token) return;
-    const response = await api.completeLesson(course._id, lessonId, token);
-    setProgress(response.progress);
-    setMessage("Lesson saved to your progress.");
+    setMessage("");
+
+    try {
+      const response = await api.completeLesson(course._id, lessonId, token);
+      setProgress(response.progress);
+      setMessage("Lesson saved to your progress.");
+    } catch (err) {
+      setMessage(err.message || "Could not save lesson progress.");
+    }
   };
 
   const handleGenerateCertificate = async () => {
     if (!course || !token) return;
-    const response = await api.generateCertificate(course._id, token);
-    setMessage(`Certificate issued: ${response.certificate.certificateId}`);
+    setMessage("");
+
+    if (course.isExternal) {
+      setMessage("External courses do not issue ElevateX certificates.");
+      return;
+    }
+
+    try {
+      const response = await api.generateCertificate(course._id, token);
+      setMessage(`Certificate issued: ${response.certificate.certificateId}`);
+    } catch (err) {
+      setMessage(err.message || "Could not generate the certificate.");
+    }
   };
 
   if (loading) {
@@ -56,7 +86,13 @@ export default function CourseDetailPage({ params }) {
   }
 
   if (!course) {
-    return <div className="shell pb-20">Course not found.</div>;
+    return (
+      <div className="shell pb-20">
+        <div className="glass-card p-6 text-sm text-error">
+          {error || "Course not found."}
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -152,7 +188,9 @@ export default function CourseDetailPage({ params }) {
               />
             </div>
             <p className="mt-4 text-sm leading-7 text-muted">
-              Finish the internal course to unlock a verifiable PDF certificate.
+              {course.isExternal
+                ? "External affiliate courses do not include ElevateX-issued certificates."
+                : "Finish the internal course to unlock a verifiable PDF certificate."}
             </p>
           </div>
 
@@ -174,7 +212,7 @@ export default function CourseDetailPage({ params }) {
               <button
                 type="button"
                 onClick={handleGenerateCertificate}
-                disabled={!progress?.completed || !isAuthenticated}
+                disabled={course.isExternal || !progress?.completed || !isAuthenticated}
                 className="button-primary w-full"
               >
                 Generate Certificate

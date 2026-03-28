@@ -1,7 +1,17 @@
 const { buildError } = require("../utils/apiResponse");
+const logger = require("../utils/logger");
 
-const errorHandler = (err, _req, res, _next) => {
+const errorHandler = (err, req, res, _next) => {
   const statusCode = err.statusCode || 500;
+  const logLevel = statusCode >= 500 ? "error" : "warn";
+
+  logger[logLevel]("Request failed", {
+    method: req.method,
+    path: req.originalUrl,
+    statusCode,
+    message: err.message,
+    name: err.name,
+  });
 
   if (err.name === "ValidationError") {
     res
@@ -18,6 +28,11 @@ const errorHandler = (err, _req, res, _next) => {
     res
       .status(409)
       .json(buildError("A record with this value already exists"));
+    return;
+  }
+
+  if (err.name === "CastError") {
+    res.status(400).json(buildError("Invalid resource identifier"));
     return;
   }
 

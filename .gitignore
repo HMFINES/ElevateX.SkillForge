@@ -11,3 +11,4 @@ frontend/.env.local
 frontend/.env.production
 backend/src/public/certificates/*.pdf
 .DS_Store
+.local-runtime
