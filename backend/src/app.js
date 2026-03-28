@@ -5,9 +5,11 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const compression = require("compression");
 const rateLimit = require("express-rate-limit");
+const mongoose = require("mongoose");
 const apiRoutes = require("./routes");
 const notFound = require("./middleware/notFound");
 const errorHandler = require("./middleware/errorHandler");
+const { sendSuccess } = require("./utils/apiResponse");
 
 const app = express();
 
@@ -45,6 +47,43 @@ app.use(
   )
 );
 app.use("/assets", express.static(path.join(__dirname, "public")));
+
+const sendServiceStatus = (res, message = "ElevateX API is running") => {
+  const readyState = mongoose.connection.readyState;
+  const dbStatusMap = {
+    0: "disconnected",
+    1: "connected",
+    2: "connecting",
+    3: "disconnecting",
+  };
+
+  sendSuccess(
+    res,
+    {
+      service: "ElevateX API",
+      founder: "Harshal Wakode",
+      uptime: process.uptime(),
+      database: {
+        status: dbStatusMap[readyState] || "unknown",
+        readyState,
+      },
+      endpoints: {
+        health: "/api/health",
+        apiBase: "/api",
+      },
+      timestamp: new Date().toISOString(),
+    },
+    message
+  );
+};
+
+app.get("/", (_req, res) => {
+  sendServiceStatus(res);
+});
+
+app.get("/health", (_req, res) => {
+  sendServiceStatus(res, "ElevateX root health fetched successfully");
+});
 
 app.use(["/api", "/api/v1", "/api/v2"], apiRoutes);
 app.use(notFound);
