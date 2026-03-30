@@ -199,7 +199,7 @@ Frontend runs on `http://localhost:3000` and backend runs on `http://localhost:5
 ### Backend
 
 ```env
-PORT=5000
+PORT=5001
 NODE_ENV=development
 MONGODB_URI=mongodb://127.0.0.1:27017/elevatex
 DB_CONNECT_RETRIES=5
@@ -237,6 +237,14 @@ RAZORPAY_PRO_AMOUNT_PAISE=99900
 RAZORPAY_THEME_COLOR=#5169ff
 ```
 
+### Secret Handling
+
+- Commit only placeholder values in `backend/.env.example` and `frontend/.env.example`.
+- Keep real credentials in local-only files like `backend/.env` and `frontend/.env.local`.
+- Do not commit live Google, JWT, Cloudinary, or Razorpay secrets to GitHub.
+- For production, add the same variables in your hosting provider's environment-variable settings instead of storing them in the repo.
+- If a secret was pasted into chat, screenshots, or an exposed file, rotate it in the provider dashboard and replace it locally.
+
 ## Deployment
 
 ### Frontend on Vercel
@@ -272,11 +280,14 @@ RAZORPAY_THEME_COLOR=#5169ff
    - `RAZORPAY_PRO_AMOUNT_PAISE`
    - `RAZORPAY_THEME_COLOR`
    - Cloudinary vars if using uploads
-4. Start command:
+4. Deploy.
+5. Use `npm start` as the start command if your platform asks for one.
 
-```bash
-npm start
-```
+### GitHub
+
+- GitHub should store source code and safe example files, not live secrets.
+- If you use GitHub Actions, store deployment credentials as repository or organization secrets.
+- If you deploy from GitHub to Vercel, Render, or Railway, configure production env vars in that platform after connecting the repo.
 
 ### MongoDB Atlas
 
