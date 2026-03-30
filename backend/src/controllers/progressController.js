@@ -3,6 +3,7 @@ const Progress = require("../models/Progress");
 const Certificate = require("../models/Certificate");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
+const { hasCourseAccess } = require("../services/accessService");
 
 const computeProgress = (course, completedLessons) => {
   const lessonCount = course.lessons.length;
@@ -35,6 +36,10 @@ const enrollCourse = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Course not found");
   }
 
+  if (!hasCourseAccess(req.user, course)) {
+    throw new ApiError(403, "Upgrade to Pro to enroll in this course");
+  }
+
   let progress = await Progress.findOne({
     userId: req.user._id,
     courseId: course._id,
@@ -60,6 +65,10 @@ const completeLesson = asyncHandler(async (req, res) => {
   const course = await Course.findById(req.params.courseId);
   if (!course) {
     throw new ApiError(404, "Course not found");
+  }
+
+  if (!hasCourseAccess(req.user, course)) {
+    throw new ApiError(403, "Upgrade to Pro to track lessons in this course");
   }
 
   if (course.isExternal) {

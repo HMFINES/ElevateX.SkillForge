@@ -78,6 +78,46 @@ const sampleCourses = [
     ]
   },
   {
+    title: "AI Automation Systems Lab",
+    description:
+      "A premium ElevateX build lab focused on automation architecture, prompt workflows, AI agents, and client-ready delivery systems.",
+    category: "AI",
+    thumbnail: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80",
+    level: "Intermediate",
+    provider: "ElevateX Pro",
+    duration: "9 hours",
+    tags: ["Automation", "AI Agents", "n8n", "Client Systems"],
+    isExternal: false,
+    access: "pro",
+    badgeText: "Pro Lab",
+    lessons: [
+      {
+        lessonId: "auto-1",
+        title: "Design an AI Automation Offer",
+        description: "Package a real automation service around business pain points and outcomes.",
+        videoUrl: "https://www.youtube.com/embed/2ePf9rue1Ao",
+        duration: "24 min",
+        order: 1
+      },
+      {
+        lessonId: "auto-2",
+        title: "Workflow Architecture and Guardrails",
+        description: "Map triggers, actions, fallbacks, validation, and monitoring into a safer production flow.",
+        videoUrl: "https://www.youtube.com/embed/nu_pCVPKzTk",
+        duration: "29 min",
+        order: 2
+      },
+      {
+        lessonId: "auto-3",
+        title: "Ship a Client-Ready Automation Case Study",
+        description: "Turn the system into proof-of-work with a walkthrough, visuals, and business metrics.",
+        videoUrl: "https://www.youtube.com/embed/bMknfKXIFA8",
+        duration: "31 min",
+        order: 3
+      }
+    ]
+  },
+  {
     title: "Coursera AI for Everyone",
     description:
       "A curated external course for learners who want a broad overview of artificial intelligence and business adoption.",

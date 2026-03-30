@@ -44,6 +44,7 @@ export default function CourseCard({ course }) {
           <Badge variant={course.isExternal ? "warning" : "success"}>
             {course.isExternal ? course.provider : "Certificate Ready"}
           </Badge>
+          {course.access === "pro" ? <Badge variant="warning">Pro access</Badge> : null}
         </div>
 
         <div className="space-y-2">
@@ -63,7 +64,13 @@ export default function CourseCard({ course }) {
             </div>
           </div>
           <div className="flex items-center justify-between gap-3">
-            <div className="text-sm text-muted">{course.isExternal ? "External pathway" : "Structured internal track"}</div>
+            <div className="text-sm text-muted">
+              {course.access === "pro"
+                ? "Premium lab"
+                : course.isExternal
+                  ? "External pathway"
+                  : "Structured internal track"}
+            </div>
             {course.isExternal ? (
               <a
                 href={course.externalLink}
@@ -75,7 +82,8 @@ export default function CourseCard({ course }) {
               </a>
             ) : (
               <Link href={`/courses/${course.slug}`} className={buttonStyles({ size: "sm" })}>
-                Learn now <ArrowRight size={16} className="ml-2" />
+                {course.access === "pro" ? "View Pro course" : "Learn now"}
+                <ArrowRight size={16} className="ml-2" />
               </Link>
             )}
           </div>

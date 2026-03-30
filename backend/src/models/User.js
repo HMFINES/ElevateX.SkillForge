@@ -46,6 +46,24 @@ const userSchema = new mongoose.Schema(
       enum: ["local", "google"],
       default: "local",
     },
+    plan: {
+      type: String,
+      enum: ["free", "pro"],
+      default: "free",
+    },
+    planStatus: {
+      type: String,
+      enum: ["inactive", "active"],
+      default: "inactive",
+    },
+    billingProvider: {
+      type: String,
+      default: "",
+    },
+    proAccessGrantedAt: {
+      type: Date,
+      default: null,
+    },
     streak: {
       type: Number,
       default: 0,

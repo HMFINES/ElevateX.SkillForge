@@ -6,6 +6,7 @@ const progressRoutes = require("./progressRoutes");
 const certificateRoutes = require("./certificateRoutes");
 const verifyRoutes = require("./verifyRoutes");
 const adminRoutes = require("./adminRoutes");
+const paymentRoutes = require("./paymentRoutes");
 const { sendSuccess } = require("../utils/apiResponse");
 
 const router = express.Router();
@@ -41,5 +42,6 @@ router.use("/progress", progressRoutes);
 router.use("/certificates", certificateRoutes);
 router.use("/verify", verifyRoutes);
 router.use("/admin", adminRoutes);
+router.use("/payments", paymentRoutes);
 
 module.exports = router;

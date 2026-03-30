@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
-import { ArrowRight, Award, ExternalLink, PlayCircle } from "lucide-react";
+import { ArrowRight, Award, ExternalLink, LockKeyhole, PlayCircle } from "lucide-react";
+import UpgradeButton from "@/components/billing/UpgradeButton";
 import LessonChecklist from "@/components/course/LessonChecklist";
 import { api } from "@/lib/api";
 import { useAuth } from "@/context/AuthContext";
@@ -12,10 +13,16 @@ export default function CourseDetailPage({ params }) {
   const { token, isAuthenticated } = useAuth();
   const [course, setCourse] = useState(null);
   const [progress, setProgress] = useState(null);
+  const [access, setAccess] = useState({
+    granted: true,
+    requiresUpgrade: false,
+    plan: "free",
+  });
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   const completedLessons = progress?.completedLessons || [];
+  const isPremiumLocked = access?.requiresUpgrade;
 
   const loadCourse = useCallback(async () => {
     setLoading(true);
@@ -25,6 +32,13 @@ export default function CourseDetailPage({ params }) {
       const response = await api.getCourse(params.slug, token);
       setCourse(response.course);
       setProgress(response.progress);
+      setAccess(
+        response.access || {
+          granted: true,
+          requiresUpgrade: false,
+          plan: response.course?.access || "free",
+        }
+      );
     } catch (err) {
       setCourse(null);
       setProgress(null);
@@ -42,6 +56,11 @@ export default function CourseDetailPage({ params }) {
     if (!course || !token) return;
     setMessage("");
 
+    if (isPremiumLocked) {
+      setMessage("Upgrade to Pro before enrolling in this premium course.");
+      return;
+    }
+
     try {
       const response = await api.enrollCourse(course._id, token);
       setProgress(response.progress);
@@ -55,6 +74,11 @@ export default function CourseDetailPage({ params }) {
     if (!course || !token) return;
     setMessage("");
 
+    if (isPremiumLocked) {
+      setMessage("Upgrade to Pro before tracking lesson progress here.");
+      return;
+    }
+
     try {
       const response = await api.completeLesson(course._id, lessonId, token);
       setProgress(response.progress);
@@ -67,6 +91,11 @@ export default function CourseDetailPage({ params }) {
   const handleGenerateCertificate = async () => {
     if (!course || !token) return;
     setMessage("");
+
+    if (isPremiumLocked) {
+      setMessage("Upgrade to Pro before generating the certificate for this course.");
+      return;
+    }
 
     if (course.isExternal) {
       setMessage("External courses do not issue ElevateX certificates.");
@@ -116,20 +145,37 @@ export default function CourseDetailPage({ params }) {
               </div>
             ) : (
               <>
-                <div className="aspect-video overflow-hidden">
-                  <iframe
-                    src={course.videoUrl}
-                    title={course.title}
-                    className="h-full w-full"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                  />
-                </div>
+                {isPremiumLocked ? (
+                  <div className="flex aspect-video items-center justify-center bg-gradient-to-br from-brand-500/16 via-surface/70 to-accent/12 p-8 text-center">
+                    <div className="max-w-md space-y-4">
+                      <div className="inline-flex items-center rounded-full border border-brand-500/20 bg-brand-500/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-brand-500">
+                        Pro course preview
+                      </div>
+                      <h2 className="font-display text-3xl font-semibold">
+                        Unlock the full lesson videos and project systems.
+                      </h2>
+                      <p className="text-sm leading-7 text-muted">
+                        This course is included in ElevateX Pro. Secure checkout activates the full media lessons, progress tracking, and certificate path.
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="aspect-video overflow-hidden">
+                    <iframe
+                      src={course.videoUrl}
+                      title={course.title}
+                      className="h-full w-full"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                )}
                 <div className="space-y-5 p-8">
                   <div className="flex flex-wrap gap-2">
                     <span className="badge">{course.category}</span>
                     <span className="badge">{course.level}</span>
                     <span className="badge">{course.duration}</span>
+                    {course.access === "pro" ? <span className="badge">Pro access</span> : null}
                   </div>
                   <div>
                     <h1 className="font-display text-4xl font-semibold">{course.title}</h1>
@@ -146,10 +192,14 @@ export default function CourseDetailPage({ params }) {
                 <div>
                   <div className="text-xs uppercase tracking-[0.22em] text-muted">Lessons</div>
                   <h2 className="mt-2 font-display text-3xl font-semibold">
-                    Progress through every module.
+                    {isPremiumLocked ? "Preview the premium module flow." : "Progress through every module."}
                   </h2>
                 </div>
-                {!progress ? (
+                {isPremiumLocked ? (
+                  <div className="max-w-xs">
+                    <UpgradeButton label="Unlock this Pro course" size="sm" className="w-full" />
+                  </div>
+                ) : !progress ? (
                   <button
                     type="button"
                     onClick={handleEnroll}
@@ -162,12 +212,35 @@ export default function CourseDetailPage({ params }) {
               </div>
 
               <div className="mt-6">
-                <LessonChecklist
-                  lessons={course.lessons || []}
-                  completedLessons={completedLessons}
-                  onComplete={handleComplete}
-                  locked={!isAuthenticated}
-                />
+                {isPremiumLocked ? (
+                  <div className="space-y-4">
+                    <div className="rounded-[24px] border border-brand-500/18 bg-brand-500/8 p-5">
+                      <div className="flex items-start gap-3">
+                        <LockKeyhole className="mt-1 text-brand-500" size={20} />
+                        <div>
+                          <div className="font-semibold">Pro upgrade required</div>
+                          <p className="mt-2 text-sm leading-7 text-muted">
+                            {access?.reason ||
+                              "Upgrade your plan to unlock the full lesson videos, hands-on project assets, and certificate path."}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <LessonChecklist
+                      lessons={course.lessons || []}
+                      completedLessons={completedLessons}
+                      onComplete={() => {}}
+                      locked
+                    />
+                  </div>
+                ) : (
+                  <LessonChecklist
+                    lessons={course.lessons || []}
+                    completedLessons={completedLessons}
+                    onComplete={handleComplete}
+                    locked={!isAuthenticated}
+                  />
+                )}
               </div>
             </div>
           ) : null}
@@ -179,16 +252,18 @@ export default function CourseDetailPage({ params }) {
               Course status
             </div>
             <div className="mt-4 font-display text-3xl font-semibold">
-              {progress?.progressPercent || 0}% complete
+              {isPremiumLocked ? "Locked" : `${progress?.progressPercent || 0}% complete`}
             </div>
             <div className="mt-4 h-3 overflow-hidden rounded-full bg-line/60">
               <div
                 className="h-full rounded-full bg-brand-500"
-                style={{ width: `${progress?.progressPercent || 0}%` }}
+                style={{ width: `${isPremiumLocked ? 14 : progress?.progressPercent || 0}%` }}
               />
             </div>
             <p className="mt-4 text-sm leading-7 text-muted">
-              {course.isExternal
+              {isPremiumLocked
+                ? "This track is part of ElevateX Pro and unlocks after secure checkout verification."
+                : course.isExternal
                 ? "External affiliate courses do not include ElevateX-issued certificates."
                 : "Finish the internal course to unlock a verifiable PDF certificate."}
             </p>
@@ -212,7 +287,7 @@ export default function CourseDetailPage({ params }) {
               <button
                 type="button"
                 onClick={handleGenerateCertificate}
-                disabled={course.isExternal || !progress?.completed || !isAuthenticated}
+                disabled={isPremiumLocked || course.isExternal || !progress?.completed || !isAuthenticated}
                 className="button-primary w-full"
               >
                 Generate Certificate

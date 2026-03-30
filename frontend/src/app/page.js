@@ -27,6 +27,7 @@ import {
   Zap,
 } from "lucide-react";
 import { api } from "@/lib/api";
+import UpgradeButton from "@/components/billing/UpgradeButton";
 import CourseCard from "@/components/course/CourseCard";
 import SectionHeading from "@/components/shared/SectionHeading";
 import Card from "@/design-system/Card";
@@ -186,6 +187,7 @@ const pricingPlans = [
       "Email support",
     ],
     cta: "Start Free",
+    kind: "link",
     href: "/auth/signup",
     highlight: false,
   },
@@ -196,12 +198,12 @@ const pricingPlans = [
     copy: "Designed for serious learners who want deeper guidance, stronger proof-of-work, and faster job-ready execution.",
     features: [
       "Full access to premium tracks",
-      "AI roadmap and chatbot guidance",
+      "Premium automation and project labs",
       "Priority certificate generation workflow",
       "Placement-focused support and mentorship-ready structure",
     ],
     cta: "Join Pro",
-    href: "/#contact",
+    kind: "upgrade",
     highlight: true,
   },
 ];
@@ -340,7 +342,7 @@ export default function HomePage() {
               <div className="flex flex-wrap gap-2">
                 <Badge variant="info">Blue to purple futuristic theme</Badge>
                 <Badge variant="success">Dark and light mode ready</Badge>
-                <Badge>AI chatbot preview</Badge>
+                <Badge>Razorpay-ready billing</Badge>
                 <Badge>Progress + certificates</Badge>
               </div>
 
@@ -773,16 +775,26 @@ export default function HomePage() {
                   ))}
                 </div>
 
-                <Link
-                  href={plan.href}
-                  className={buttonStyles({
-                    variant: plan.highlight ? "primary" : "secondary",
-                    size: "lg",
-                    className: "mt-8 w-full",
-                  })}
-                >
-                  {plan.cta}
-                </Link>
+                {plan.kind === "upgrade" ? (
+                  <UpgradeButton
+                    label={plan.cta}
+                    variant={plan.highlight ? "primary" : "secondary"}
+                    size="lg"
+                    className="mt-8 w-full"
+                    redirectTo="/dashboard"
+                  />
+                ) : (
+                  <Link
+                    href={plan.href}
+                    className={buttonStyles({
+                      variant: plan.highlight ? "primary" : "secondary",
+                      size: "lg",
+                      className: "mt-8 w-full",
+                    })}
+                  >
+                    {plan.cta}
+                  </Link>
+                )}
               </Card>
             </motion.div>
           ))}

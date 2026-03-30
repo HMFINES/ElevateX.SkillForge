@@ -14,6 +14,7 @@ import {
   Rocket,
 } from "lucide-react";
 import AuthGuard from "@/components/auth/AuthGuard";
+import UpgradeButton from "@/components/billing/UpgradeButton";
 import { useAuth } from "@/context/AuthContext";
 import { api } from "@/lib/api";
 import { formatDate } from "@/lib/format";
@@ -235,6 +236,40 @@ export default function DashboardPage() {
               ))}
             </div>
           </Card>
+
+          <Card padding="lg" className="space-y-5">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <div className="text-xs font-semibold uppercase tracking-[0.22em] text-muted">
+                  Billing plan
+                </div>
+                <div className="mt-2 font-display text-3xl font-semibold">
+                  {user?.plan === "pro" && user?.planStatus === "active"
+                    ? "Pro is active"
+                    : "Free starter"}
+                </div>
+              </div>
+              <Badge variant={user?.plan === "pro" && user?.planStatus === "active" ? "success" : "info"}>
+                {user?.plan === "pro" && user?.planStatus === "active" ? "Premium access" : "Upgrade available"}
+              </Badge>
+            </div>
+
+            <p className="text-sm leading-7 text-muted">
+              {user?.plan === "pro" && user?.planStatus === "active"
+                ? "Your account can open premium labs, gated internal tracks, and higher-value proof-of-work systems."
+                : "Upgrade once to unlock premium labs, pro-only courses, and stronger guided execution flows."}
+            </p>
+
+            {user?.plan === "pro" && user?.planStatus === "active" ? (
+              <div className="rounded-[22px] border border-brand-500/18 bg-brand-500/8 p-4 text-sm text-muted">
+                {user?.proAccessGrantedAt
+                  ? `Pro access activated on ${formatDate(user.proAccessGrantedAt)}.`
+                  : "Pro access is attached to your account."}
+              </div>
+            ) : (
+              <UpgradeButton label="Unlock Pro access" className="w-full" />
+            )}
+          </Card>
         </div>
 
         <div className="mt-8 grid gap-6 xl:grid-cols-[0.72fr_1.28fr]">
@@ -432,11 +467,14 @@ export default function DashboardPage() {
                         <div className="flex items-start justify-between gap-4">
                           <div>
                             <div className="font-semibold">{course.title}</div>
-                            <div className="mt-1 text-sm text-muted">
-                              {course.category} · {course.duration || "Flexible"}
-                            </div>
+                        <div className="mt-1 text-sm text-muted">
+                          {course.category} · {course.duration || "Flexible"}
+                        </div>
+                      </div>
+                          <div className="flex flex-col items-end gap-2">
+                            <Badge>{course.level || "Beginner"}</Badge>
+                            {course.access === "pro" ? <Badge variant="warning">Pro</Badge> : null}
                           </div>
-                          <Badge>{course.level || "Beginner"}</Badge>
                         </div>
                         <p className="mt-3 text-sm leading-7 text-muted">
                           {course.description}

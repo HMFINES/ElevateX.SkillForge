@@ -1,17 +1,6 @@
-const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api/v2";
+import { publicBaseUrl, siteConfig } from "@/lib/site";
 
-const PUBLIC_BASE_URL = (() => {
-  try {
-    const url = new URL(API_BASE_URL);
-    const normalizedPath = url.pathname.replace(/\/$/, "");
-    return normalizedPath.endsWith("/api")
-      ? `${url.origin}${normalizedPath.slice(0, -4)}`
-      : url.origin;
-  } catch (_error) {
-    return API_BASE_URL.replace(/\/api\/?$/, "");
-  }
-})();
+const API_BASE_URL = siteConfig.apiBaseUrl;
 
 const getAssetUrl = (assetPath = "") => {
   if (!assetPath) {
@@ -22,7 +11,7 @@ const getAssetUrl = (assetPath = "") => {
     return assetPath;
   }
 
-  return `${PUBLIC_BASE_URL}${assetPath.startsWith("/") ? assetPath : `/${assetPath}`}`;
+  return `${publicBaseUrl}${assetPath.startsWith("/") ? assetPath : `/${assetPath}`}`;
 };
 
 const normalizeResponse = (payload = {}) => {
@@ -75,6 +64,7 @@ export const api = {
   assetUrl: getAssetUrl,
   request,
   getHealth: () => request("/health"),
+  getPaymentConfig: () => request("/payments/config"),
   getCourses: (query = "") => request(`/courses${query}`),
   getFeaturedCourses: () => request("/courses/featured"),
   getCourse: (slug, token) => request(`/courses/${slug}`, { token }),
@@ -117,4 +107,8 @@ export const api = {
     request(`/admin/courses/${courseId}`, { method: "DELETE", token }),
   adminIssueCertificate: (token, body) =>
     request("/certificates/manual/issue", { method: "POST", token, body }),
+  createProOrder: (token) =>
+    request("/payments/orders/pro", { method: "POST", token }),
+  verifyProPayment: (token, body) =>
+    request("/payments/verify/pro", { method: "POST", token, body }),
 };

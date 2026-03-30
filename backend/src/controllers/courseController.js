@@ -2,6 +2,7 @@ const Course = require("../models/Course");
 const Progress = require("../models/Progress");
 const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
+const { serializeCourseForViewer } = require("../services/accessService");
 
 const escapeRegExp = (value = "") => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
@@ -48,15 +49,17 @@ const getCourseBySlug = asyncHandler(async (req, res) => {
     throw new ApiError(404, "Course not found");
   }
 
+  const { course: visibleCourse, access } = serializeCourseForViewer(course, req.user);
+
   let progress = null;
-  if (req.user) {
+  if (req.user && access.granted) {
     progress = await Progress.findOne({
       userId: req.user._id,
       courseId: course._id,
     });
   }
 
-  res.json({ course, progress });
+  res.json({ course: visibleCourse, progress, access });
 });
 
 module.exports = {

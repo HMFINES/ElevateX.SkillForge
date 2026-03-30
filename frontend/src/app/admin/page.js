@@ -22,6 +22,7 @@ const initialCourseState = {
   duration: "",
   thumbnail: "",
   provider: "ElevateX",
+  access: "free",
   badgeText: "",
   tagsText: "",
   published: true,
@@ -38,6 +39,7 @@ const mapCourseToForm = (course) => ({
   duration: course.duration || "",
   thumbnail: course.thumbnail || "",
   provider: course.provider || "ElevateX",
+  access: course.access || "free",
   badgeText: course.badgeText || "",
   tagsText: (course.tags || []).join(", "),
   published: typeof course.published === "boolean" ? course.published : true,
@@ -63,6 +65,7 @@ const buildCoursePayload = (courseForm) => ({
   duration: courseForm.duration.trim(),
   thumbnail: courseForm.thumbnail.trim(),
   provider: courseForm.provider.trim() || "ElevateX",
+  access: courseForm.access,
   badgeText: courseForm.badgeText.trim(),
   isExternal: courseForm.isExternal,
   externalLink: courseForm.externalLink.trim(),
@@ -291,6 +294,16 @@ export default function AdminPage() {
                   setCourseForm((prev) => ({ ...prev, duration: event.target.value }))
                 }
               />
+              <select
+                className="input"
+                value={courseForm.access}
+                onChange={(event) =>
+                  setCourseForm((prev) => ({ ...prev, access: event.target.value }))
+                }
+              >
+                <option value="free">Free access</option>
+                <option value="pro">Pro access</option>
+              </select>
             </div>
             <textarea
               className="input min-h-28"
@@ -483,7 +496,7 @@ export default function AdminPage() {
                 <div>
                   <div className="text-xs uppercase tracking-[0.22em] text-muted">
                     {course.category} · {course.isExternal ? "External" : "Internal"} ·{" "}
-                    {course.published ? "Published" : "Draft"}
+                    {course.access === "pro" ? "Pro" : "Free"} · {course.published ? "Published" : "Draft"}
                   </div>
                   <div className="mt-2 font-display text-2xl font-semibold">{course.title}</div>
                 </div>
@@ -517,6 +530,7 @@ export default function AdminPage() {
                   <th className="px-4 py-3">Name</th>
                   <th className="px-4 py-3">Email</th>
                   <th className="px-4 py-3">Role</th>
+                  <th className="px-4 py-3">Plan</th>
                   <th className="px-4 py-3">Courses</th>
                   <th className="px-4 py-3">Certificates</th>
                 </tr>
@@ -527,6 +541,7 @@ export default function AdminPage() {
                     <td className="px-4 py-3">{user.name}</td>
                     <td className="px-4 py-3">{user.email}</td>
                     <td className="px-4 py-3">{user.role}</td>
+                    <td className="px-4 py-3">{user.plan || "free"}</td>
                     <td className="px-4 py-3">{user.enrolledCourses}</td>
                     <td className="px-4 py-3">{user.certificatesIssued}</td>
                   </tr>

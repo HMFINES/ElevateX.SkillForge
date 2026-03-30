@@ -89,7 +89,7 @@ ElevateX/
 - `duration`
 - `published`
 
-### Progress
+### Progress API
 
 - `userId`
 - `courseId`
@@ -171,28 +171,28 @@ cp backend/.env.example backend/.env
 cp frontend/.env.example frontend/.env.local
 ```
 
-2. Install dependencies from the repo root:
+1. Install dependencies from the repo root:
 
 ```bash
 npm install
 ```
 
-3. Start MongoDB locally or point `MONGODB_URI` to MongoDB Atlas.
+1. Start MongoDB locally or point `MONGODB_URI` to MongoDB Atlas.
 
-4. Seed the database:
+1. Seed the database:
 
 ```bash
 npm run seed
 ```
 
-5. Run the backend and frontend in separate terminals:
+1. Run the backend and frontend in separate terminals:
 
 ```bash
 npm run dev:backend
 npm run dev:frontend
 ```
 
-Frontend runs on `http://localhost:3000` and backend runs on `http://localhost:5000`.
+Frontend runs on `http://localhost:3000` and backend runs on `http://localhost:5001`.
 
 ## Environment Variables
 
@@ -220,8 +220,21 @@ ADMIN_PASSWORD=ChangeMe123!
 ### Frontend
 
 ```env
-NEXT_PUBLIC_API_URL=http://localhost:5000/api
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+NEXT_PUBLIC_API_URL=http://localhost:5001/api
 NEXT_PUBLIC_GOOGLE_CLIENT_ID=your_google_oauth_client_id
+NEXT_PUBLIC_GA_MEASUREMENT_ID=G-XXXXXXXXXX
+```
+
+### Payments
+
+```env
+RAZORPAY_KEY_ID=rzp_test_xxxxxxxxxx
+RAZORPAY_KEY_SECRET=your_razorpay_key_secret
+RAZORPAY_CURRENCY=INR
+RAZORPAY_PLAN_NAME=Pro Launch
+RAZORPAY_PRO_AMOUNT_PAISE=99900
+RAZORPAY_THEME_COLOR=#5169ff
 ```
 
 ## Deployment
@@ -231,8 +244,10 @@ NEXT_PUBLIC_GOOGLE_CLIENT_ID=your_google_oauth_client_id
 1. Import the repo into Vercel.
 2. Set root directory to `frontend`.
 3. Add environment variables:
+   - `NEXT_PUBLIC_SITE_URL`
    - `NEXT_PUBLIC_API_URL`
    - `NEXT_PUBLIC_GOOGLE_CLIENT_ID`
+   - `NEXT_PUBLIC_GA_MEASUREMENT_ID`
 4. Deploy.
 
 ### Backend on Render or Railway
@@ -250,6 +265,12 @@ NEXT_PUBLIC_GOOGLE_CLIENT_ID=your_google_oauth_client_id
    - `JWT_SECRET`
    - `JWT_EXPIRES_IN`
    - `GOOGLE_CLIENT_ID`
+   - `RAZORPAY_KEY_ID`
+   - `RAZORPAY_KEY_SECRET`
+   - `RAZORPAY_CURRENCY`
+   - `RAZORPAY_PLAN_NAME`
+   - `RAZORPAY_PRO_AMOUNT_PAISE`
+   - `RAZORPAY_THEME_COLOR`
    - Cloudinary vars if using uploads
 4. Start command:
 
@@ -278,3 +299,6 @@ npm start
 
 - The original static HTML/CSS files remain in the repo, but the production application lives in `frontend/` and `backend/`.
 - Cloudinary uploads are optional. Certificate PDFs are stored locally by default under `backend/src/public/certificates`.
+- Google login in this stack uses a Google Identity Services client ID on both frontend and backend token verification.
+- Razorpay Pro checkout is now wired into the main ElevateX app. To go live, add the Razorpay API keys, enable auto-capture, and redeploy both apps.
+- `frontend/src/app/robots.js` and `frontend/src/app/sitemap.js` provide SEO-friendly crawl control and sitemap output for the Next.js app.

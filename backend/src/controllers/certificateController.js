@@ -6,6 +6,7 @@ const ApiError = require("../utils/ApiError");
 const asyncHandler = require("../utils/asyncHandler");
 const { generateCertificateId } = require("../utils/certificateId");
 const { generateCertificatePdf } = require("../services/certificateService");
+const { hasCourseAccess } = require("../services/accessService");
 
 const createCertificateRecord = async ({ user, course }) => {
   const existingCertificate = await Certificate.findOne({
@@ -60,6 +61,10 @@ const generateCertificate = asyncHandler(async (req, res) => {
   const course = await Course.findById(req.params.courseId);
   if (!course) {
     throw new ApiError(404, "Course not found");
+  }
+
+  if (!hasCourseAccess(req.user, course)) {
+    throw new ApiError(403, "Upgrade to Pro before generating a certificate for this course");
   }
 
   if (course.isExternal) {

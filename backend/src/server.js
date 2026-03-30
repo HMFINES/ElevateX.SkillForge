@@ -3,12 +3,14 @@ const connectDB = require("./config/db");
 const mongoose = require("mongoose");
 const app = require("./app");
 const logger = require("./utils/logger");
+const { validateServerEnv } = require("./config/env");
 
 const port = process.env.PORT || 5000;
 let server;
 let isShuttingDown = false;
 
 const startServer = async () => {
+  validateServerEnv();
   await connectDB();
 
   server = app.listen(port, () => {

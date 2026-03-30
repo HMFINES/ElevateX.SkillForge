@@ -17,8 +17,18 @@ const seed = async () => {
       password: process.env.ADMIN_PASSWORD || "ChangeMe123!",
       role: "admin",
       provider: "local",
+      plan: "pro",
+      planStatus: "active",
+      billingProvider: "manual",
+      proAccessGrantedAt: new Date(),
       headline: "Founder · AI Engineer & AI Automation Specialist",
     });
+  } else if (existingAdmin.plan !== "pro" || existingAdmin.planStatus !== "active") {
+    existingAdmin.plan = "pro";
+    existingAdmin.planStatus = "active";
+    existingAdmin.billingProvider = existingAdmin.billingProvider || "manual";
+    existingAdmin.proAccessGrantedAt = existingAdmin.proAccessGrantedAt || new Date();
+    await existingAdmin.save();
   }
 
   for (const course of sampleCourses) {

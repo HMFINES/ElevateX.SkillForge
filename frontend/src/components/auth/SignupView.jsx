@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import clsx from "clsx";
 import AuthShell from "@/components/auth/AuthShell";
 import GoogleLoginButton from "@/components/auth/GoogleLoginButton";
@@ -26,6 +26,12 @@ const roles = [
 
 export default function SignupView() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const requestedNext = searchParams.get("next");
+  const next =
+    requestedNext && requestedNext.startsWith("/") && !requestedNext.startsWith("//")
+      ? requestedNext
+      : "/dashboard";
   const { signup, signInWithGoogle } = useAuth();
   const [form, setForm] = useState({
     name: "",
@@ -89,7 +95,7 @@ export default function SignupView() {
         password: form.password,
         role: form.role,
       });
-      router.push("/dashboard");
+      router.push(next);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -183,7 +189,7 @@ export default function SignupView() {
         onCredential={async (credential) => {
           try {
             await signInWithGoogle(credential);
-            router.push("/dashboard");
+            router.push(next);
           } catch (err) {
             setError(err.message);
           }

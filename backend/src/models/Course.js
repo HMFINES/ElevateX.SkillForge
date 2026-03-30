@@ -100,6 +100,11 @@ const courseSchema = new mongoose.Schema(
       type: String,
       default: "ElevateX",
     },
+    access: {
+      type: String,
+      enum: ["free", "pro"],
+      default: "free",
+    },
     badgeText: {
       type: String,
       default: "",

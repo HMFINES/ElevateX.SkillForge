@@ -49,6 +49,7 @@ const normalizeCoursePayload = (payload) => {
     isExternal: Boolean(payload.isExternal),
     externalLink: payload.externalLink || "",
     provider: payload.provider || "ElevateX",
+    access: payload.access || "free",
     badgeText: payload.badgeText || (payload.isExternal ? "Get Certified" : "Internal Course"),
     duration: payload.duration || "",
     published: typeof payload.published === "boolean" ? payload.published : true,
