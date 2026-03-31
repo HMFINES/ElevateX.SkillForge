@@ -2,12 +2,12 @@ import clsx from "clsx";
 
 export const badgeStyles = ({ variant = "default", className } = {}) =>
   clsx(
-    "inline-flex items-center rounded-full border px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.18em]",
+    "inline-flex items-center border px-3 py-1 font-display text-[10px] font-bold uppercase tracking-[0.2em] shadow-[0_0_10px_rgba(0,0,0,0.5)]",
     {
-      "border-line bg-surface/80 text-muted": variant === "default",
-      "border-brand-500/25 bg-brand-500/12 text-brand-500": variant === "info",
-      "border-success/25 bg-success/12 text-success": variant === "success",
-      "border-warning/25 bg-warning/12 text-warning": variant === "warning",
+      "border-white/20 bg-surface text-muted": variant === "default",
+      "border-brand-500/50 bg-brand-500/10 text-brand-500 shadow-[0_0_10px_rgba(0,255,65,0.2)]": variant === "info",
+      "border-success/50 bg-success/10 text-success shadow-[0_0_10px_rgba(0,255,65,0.2)]": variant === "success",
+      "border-warning/50 bg-warning/10 text-warning shadow-[0_0_10px_rgba(255,215,0,0.2)]": variant === "warning",
     },
     className
   );

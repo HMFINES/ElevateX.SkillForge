@@ -2,21 +2,21 @@ import clsx from "clsx";
 
 export const buttonStyles = ({ variant = "primary", size = "md", className } = {}) =>
   clsx(
-    "inline-flex items-center justify-center rounded-full font-semibold transition duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40 disabled:pointer-events-none disabled:opacity-60",
+    "inline-flex items-center justify-center font-display font-bold uppercase tracking-wider transition duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-500/40 disabled:pointer-events-none disabled:opacity-60",
     {
-      "bg-[linear-gradient(135deg,rgba(var(--brand),1),rgba(var(--accent),1))] text-white shadow-glow hover:-translate-y-0.5 hover:brightness-110":
+      "border-2 border-brand-500 bg-brand-500/10 text-brand-500 shadow-cyber hover:bg-brand-500 hover:text-canvas hover:shadow-[0_0_20px_rgba(0,255,65,0.6)]":
         variant === "primary",
-      "border border-white/10 bg-surface/72 text-ink hover:-translate-y-0.5 hover:border-brand-500/35 hover:bg-surface/90":
+      "border-2 border-accent bg-accent/5 text-accent shadow-cyber-pink hover:bg-accent hover:text-white hover:shadow-[0_0_20px_rgba(255,0,60,0.6)]":
         variant === "secondary",
-      "bg-transparent text-muted hover:bg-surface/70 hover:text-ink":
+      "border border-white/20 bg-transparent text-muted hover:border-white/50 hover:text-ink":
         variant === "ghost",
-      "bg-error/90 text-white hover:-translate-y-0.5 hover:bg-error":
+      "border-2 border-error bg-error/10 text-error shadow-[4px_4px_0px_rgba(255,0,60,0.8)] hover:bg-error hover:text-white":
         variant === "danger",
     },
     {
-      "h-10 px-4 text-sm": size === "sm",
-      "h-12 px-5 text-sm": size === "md",
-      "h-14 px-6 text-base": size === "lg",
+      "h-10 px-4 text-xs": size === "sm",
+      "h-12 px-6 text-sm": size === "md",
+      "h-14 px-8 text-base": size === "lg",
     },
     className
   );

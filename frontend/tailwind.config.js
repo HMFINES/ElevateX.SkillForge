@@ -40,14 +40,20 @@ module.exports = {
         92: "0.92",
       },
       boxShadow: {
-        glow: "0 20px 70px rgba(79, 110, 247, 0.26)",
-        glass: "0 24px 60px rgba(0, 0, 0, 0.22)",
-        panel: "0 28px 80px rgba(4, 10, 24, 0.34)",
+        glow: "0 0 15px rgba(0, 255, 65, 0.5), 0 0 30px rgba(0, 255, 65, 0.3)",
+        glass: "0 0 20px rgba(0, 0, 0, 0.8)",
+        panel: "0 0 25px rgba(255, 0, 60, 0.15)",
+        cyber: "4px 4px 0px rgba(0, 255, 65, 0.8)",
+        "cyber-pink": "4px 4px 0px rgba(255, 0, 60, 0.8)",
       },
       backgroundImage: {
         radial:
-          "radial-gradient(circle at top, rgba(79,110,247,.2), transparent 42%)",
+          "radial-gradient(circle at top, rgba(0, 255, 65, 0.15), transparent 42%)",
+        cyberGrid: "linear-gradient(rgba(0, 255, 65, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 255, 65, 0.05) 1px, transparent 1px)",
       },
+      clipPath: {
+        polygon: "polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px)"
+      }
     },
   },
   plugins: [],

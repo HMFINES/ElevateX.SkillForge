@@ -14,7 +14,7 @@ export const siteConfig = {
   siteUrl: normalizeUrl(process.env.NEXT_PUBLIC_SITE_URL, "http://localhost:3000"),
   apiBaseUrl: normalizeUrl(
     process.env.NEXT_PUBLIC_API_URL,
-    "http://localhost:5000/api/v2"
+    "http://localhost:5001/api"
   ),
 };
 

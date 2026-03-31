@@ -5,19 +5,27 @@ const app = require("./app");
 const logger = require("./utils/logger");
 const { validateServerEnv } = require("./config/env");
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5001;
 let server;
 let isShuttingDown = false;
+
+const listen = (appInstance, nextPort) =>
+  new Promise((resolve, reject) => {
+    const nextServer = appInstance.listen(nextPort);
+
+    nextServer.once("listening", () => resolve(nextServer));
+    nextServer.once("error", (error) => reject(error));
+  });
 
 const startServer = async () => {
   validateServerEnv();
   await connectDB();
 
-  server = app.listen(port, () => {
-    logger.info("ElevateX API server started", {
-      port,
-      env: process.env.NODE_ENV || "development",
-    });
+  server = await listen(app, port);
+
+  logger.info("ElevateX API server started", {
+    port,
+    env: process.env.NODE_ENV || "development",
   });
 };
 
@@ -30,7 +38,7 @@ const shutdown = async (signal) => {
   logger.warn("Shutdown signal received", { signal });
 
   try {
-    if (server) {
+    if (server?.listening) {
       await new Promise((resolve, reject) => {
         server.close((error) => {
           if (error) {
@@ -43,7 +51,10 @@ const shutdown = async (signal) => {
       });
     }
 
-    await mongoose.connection.close();
+    if (mongoose.connection.readyState !== 0) {
+      await mongoose.connection.close();
+    }
+
     logger.info("Server shutdown completed");
     process.exit(0);
   } catch (error) {

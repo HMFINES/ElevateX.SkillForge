@@ -19,15 +19,21 @@ const ensureRazorpayCheckout = () => {
 
   if (!razorpayScriptPromise) {
     razorpayScriptPromise = new Promise((resolve, reject) => {
+      const handleFailure = () => {
+        razorpayScriptPromise = undefined;
+        reject(new Error("Secure checkout could not load right now."));
+      };
+
       const existingScript = document.querySelector('script[data-razorpay-checkout="true"]');
 
       if (existingScript) {
+        if (typeof window.Razorpay === "function") {
+          resolve();
+          return;
+        }
+
         existingScript.addEventListener("load", () => resolve(), { once: true });
-        existingScript.addEventListener(
-          "error",
-          () => reject(new Error("Secure checkout could not load right now.")),
-          { once: true }
-        );
+        existingScript.addEventListener("error", handleFailure, { once: true });
         return;
       }
 
@@ -36,7 +42,10 @@ const ensureRazorpayCheckout = () => {
       script.async = true;
       script.dataset.razorpayCheckout = "true";
       script.onload = () => resolve();
-      script.onerror = () => reject(new Error("Secure checkout could not load right now."));
+      script.onerror = () => {
+        script.remove();
+        handleFailure();
+      };
       document.body.appendChild(script);
     });
   }
